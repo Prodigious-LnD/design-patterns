@@ -1,0 +1,12 @@
+{{> doc_header }}
+
+{{! ========== Page content ========= }}
+<div id="{{ page.id }}" class="main">
+	<div class="main-content" data-role="content">
+        {{#block "body"}}
+		    {{> body }}
+        {{/block}}
+	</div>
+</div>
+
+{{> doc_footer }}
