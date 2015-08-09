@@ -25,7 +25,7 @@ var vehiclePrototype = {
         console.log('The model of this vehicle is..' + this.model);
     }
 };
-​
+
 function vehicle(model) {
     function F() {};
     
@@ -37,7 +37,7 @@ function vehicle(model) {
     
     return f;
 }
-​
+
 var car = vehicle('Ford Escort');
 car.getModel(); 
 
@@ -48,12 +48,12 @@ var someCar = {
     drive: function() {},
     name: 'Mazda 3' 
 }; 
-​
+
 // Use Object.create to generate a new car 
 var anotherCar = Object.create( someCar );
 // Now you'll hopefully see that one is a prototype of the other
 console.log(anotherCar.name);
-​
+
 //you're also able to initialize object properties using the second supplied argument
 var vehicle = {
     getModel: function () {

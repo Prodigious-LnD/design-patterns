@@ -1,0 +1,20 @@
+.highlight {
+    background-color: #fff000;
+    @include box-shadow(#444 2px 2px 2px);
+    color: #000000;
+    padding: 0 2px;
+}
+
+.pull-down {
+	@extend .vcenter;
+	top: auto !important;
+}
+
+.vcenter {
+	bottom: 0px !important;
+	left: 0px !important;
+	margin: auto;
+	position: absolute;
+	right: 0px !important;
+	top: 0px !important;
+}

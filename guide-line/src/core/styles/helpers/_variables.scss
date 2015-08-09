@@ -1,0 +1,37 @@
+//== Iconography
+$icon-font-path: "/css/fonts/glyphicons/" !default;
+
+//== Scaffolding
+$desktop-width: 100%;
+
+//== Media queries breakpoints
+
+// Extra small screen / phone
+$screen-xs:                  320px;
+$screen-xs-min:              $screen-xs;
+$screen-phone:               $screen-xs-min;
+
+// Small screen / phablet
+$screen-sm:                  640px;
+$screen-sm-min:              $screen-sm;
+$screen-tablet:              $screen-sm-min;
+
+// Medium screen / tablet
+$screen-md:                  768px;
+$screen-md-min:              $screen-md;
+$screen-desktop:             $screen-md-min;
+
+// Large screen /  desktop
+$screen-lg:                  1024px;
+$screen-lg-min:              $screen-lg;
+$screen-lg-desktop:          $screen-lg-min;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max:              ($screen-sm-min - 1);
+$screen-sm-max:              ($screen-md-min - 1);
+$screen-md-max:              ($screen-lg-min - 1);
+
+$desktop: "screen and (min-width : 1024px)";
+$tablet: "screen and (min-width : 768px) and (max-width : 1023px)";
+$phablet: "screen and (min-width : 640px) and (max-width : 767px)";
+$mobile: "screen and (max-width : 639px)";

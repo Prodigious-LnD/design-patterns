@@ -1,0 +1,50 @@
+.btn-gray {
+    color: #ffffff;
+    background-color: $gray-dark;
+    border-color: $gray-darker;
+}
+
+.btn-gray:hover,
+.btn-gray:focus,
+.btn-gray:active,
+.btn-gray.active,
+.open .dropdown-toggle.btn-gray {
+    color: #ffffff;
+    background-color: $gray;
+    border-color: $gray-dark;
+}
+
+.btn-gray:active,
+.btn-gray.active,
+.open .dropdown-toggle.btn-gray {
+    background-image: none;
+}
+
+.btn-gray.disabled,
+.btn-gray[disabled],
+fieldset[disabled] .btn-gray,
+.btn-gray.disabled:hover,
+.btn-gray[disabled]:hover,
+fieldset[disabled] .btn-gray:hover,
+.btn-gray.disabled:focus,
+.btn-gray[disabled]:focus,
+fieldset[disabled] .btn-gray:focus,
+.btn-gray.disabled:active,
+.btn-gray[disabled]:active,
+fieldset[disabled] .btn-gray:active,
+.btn-gray.disabled.active,
+.btn-gray[disabled].active,
+fieldset[disabled] .btn-gray.active {
+    background-color: $gray-light;
+    border-color: $gray;
+}
+
+.btn-gray .badge {
+    color: $gray;
+    background-color: #ffffff;
+}
+
+.btn-md {
+    padding-left: 40px;
+    padding-right: 40px;
+}
