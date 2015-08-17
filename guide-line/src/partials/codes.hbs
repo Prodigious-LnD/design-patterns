@@ -1,0 +1,294 @@
+{{#content "creational" }}
+// Each of the following options will create a new empty object: 
+var newObject = {}; // or
+var newObject = Object.create(null); // or
+var newObject = new Object();
+{{/content }}
+
+
+{{#content "creational-assigned"}}
+// ECMAScript 3 compatible approaches 
+
+// 1. Dot syntax
+newObject.someKey = 'Hello World'; // Write properties 
+var key = newObject.someKey; // Access properties 
+
+// 2. Square bracket syntax
+newObject['someKey'] = 'Hello World'; // Write properties 
+var key = newObject['someKey']; // Access properties 
+
+// ECMAScript 5 only compatible approaches
+// For more information see: http://kangax.github.com/es5-compat-table/ 
+
+// 3. Object.defineProperty 
+Object.defineProperty(newObject, "someKey", {
+    value: "for more control of the property's behavior",
+    writable: true,
+    enumerable: true,
+    configurable: true
+});
+
+// 4. Object.defineProperties 
+Object.defineProperties(newObject, {
+    "someKey": {
+        value: "Hello World",
+        writable: true
+    },
+    "anotherKey": {
+        value: "Foo bar",
+        writable: false
+    }
+});
+{{/content}}
+
+
+{{#content "basic-constructor"}}
+function Car(model, year, miles) { 
+    this.model = model; 
+    this.year = year; this.miles = miles; 
+    this.toString = function () {
+        return this.model + " has done " + this.miles + " miles"; 
+    };
+}
+
+var civic = new Car("Honda Civic", 2009, 20000); 
+var mondeo = new Car("Ford Mondeo", 2010, 5000); 
+
+console.log(civic.toString()); 
+console.log(mondeo.toString());
+{{/content}}
+
+{{#content "prototype"}}
+function Car(model, year, miles) {
+    this.model = model;
+    this.year = year;
+    this.miles = miles;
+}
+
+// Note here that we are using Object.prototype.newMethod rather than 
+// Object.prototype so as to avoid redefining the prototype object 
+
+Car.prototype.toString = function () {
+    return this.model + " has done " + this.miles + " miles";
+};
+
+var civic = new Car("Honda Civic", 2009, 20000);
+var mondeo = new Car("Ford Mondeo", 2010, 5000);
+
+console.log(civic.toString());
+{{/content}}
+
+
+{{#content "singleton"}}
+var mySingleton = { 
+    property1: "something", 
+    property2: "something else", 
+    method1: function () { 
+       console.log('hello world'); 
+    }
+};
+{{/content}}
+
+{{#content "singleton2"}}
+var mySingleton = function () {
+    // here are our private methods and variables 
+    var privateVariable = 'something private'; 
+    
+    function showPrivate() { 
+        console.log(privateVariable); 
+    } 
+    
+    // public variables and methods (which can access // private variables and methods )
+    return { 
+        publicVar: 'the public can see this!',
+        publicMethod: function () { 
+            showPrivate();
+        }
+    };
+};
+
+var single = mySingleton();
+
+single.publicMethod(); // logs 'something private' 
+console.log(single.publicVar); // logs 'the public can see this!'
+{{/content}}
+
+{{#content "singleton3"}}
+var Singleton = (function () {
+    var instantiated;
+
+    function init() {
+        // singleton here 
+        return {
+            publicMethod: function () {
+                console.log('hello world');
+            },
+            publicProperty: 'test'
+        };
+    }
+    return {
+        getInstance: function () {
+            if (!instantiated) {
+                instantiated = init();
+            }
+            return instantiated;
+        }
+    };
+})();
+
+// calling public methods is then as easy as: 
+Singleton.getInstance().publicMethod();
+{{/content}}
+
+
+{{#content "singleton4"}}
+var SingletonTester = (function () { 
+    // options: an object containing configuration options for the singleton 
+    // e.g var options = { name: 'test', pointX: 5};
+    function Singleton(options) { 
+        // set options to the options supplied or an empty object if none provided. 
+        options = options || {};
+        //set the name parameter
+        this.name = 'SingletonTester'; 
+        //set the value of pointX 
+        this.pointX = args.pointX || 6; 
+        //set the value of pointY 
+        this.pointY = args.pointY || 10; 
+    } 
+
+    // this is our instance holder 
+    var instance;
+    // this is an emulation of static variables and methods 
+    var _static = {
+        name: 'SingletonTester', 
+        // This is a method for getting an instance
+        // It returns a singleton instance of a singleton object getInstance: 
+        function (options) { 
+            if (instance === undefined) { 
+                instance = new Singleton(options); 
+            } 
+            return instance; 
+        } 
+    }; 
+    
+    return _static; 
+})(); 
+
+var singletonTest = SingletonTester.getInstance({ 
+    pointX: 5 
+});
+
+console.log(singletonTest.pointX); // outputs 5 
+{{/content}}
+
+
+{{#content "real-prototype"}}
+// No need for capitalization as it's not a constructor 
+var someCar = {
+    drive: function() {},
+    name: 'Mazda 3' 
+}; 
+
+// Use Object.create to generate a new car 
+var anotherCar = Object.create( someCar );
+// Now you'll hopefully see that one is a prototype of the other
+console.log(anotherCar.name);
+
+//you're also able to initialize object properties using the second supplied argument
+var vehicle = {
+    getModel: function () {
+        console.log('The model of this vehicle is..' + this.model);
+    }
+};
+var car = Object.create(vehicle, {
+    'id': {
+        value: MY_GLOBAL.nextId(),
+        enumerable: true // writable:false, configurable:false by default 
+    },
+    'model': {
+        value: 'Ford',
+        enumerable: true
+    }
+}); 
+{{/content}}
+
+
+{{#content "prototype2"}}
+var vehiclePrototype = {
+    init: function (carModel) {
+        this.model = carModel;
+    },
+    getModel: function () {
+        console.log('The model of this vehicle is..' + this.model);
+    }
+};
+
+function vehicle(model) {
+    function F() {};
+    
+    F.prototype = vehiclePrototype;
+    
+    var f = new F();
+    
+    f.init(model);
+    
+    return f;
+}
+
+var car = vehicle('Ford Escort');
+car.getModel();
+{{/content}}
+
+
+{{#content "mixin"}}
+// Car 
+var Car = function (settings) {
+    this.model = settings.model || 'no model provided';
+    this.colour = settings.colour || 'no colour provided';
+};
+
+// Mixin 
+var Mixin = function () {};
+
+Mixin.prototype = {
+    driveForward: function () {
+        console.log('drive forward');
+    },
+    driveBackward: function () {
+        console.log('drive backward');
+    }
+};
+
+// Augment existing 'class' with a method from another 
+function augment(receivingClass, givingClass) { 
+    // only provide certain methods
+    if (arguments[2]) {
+        for (var i = 2, len = arguments.length; i < len; i++) {
+            receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]];
+        }
+    }
+    // provide all methods 
+    else {
+        for (var methodName in givingClass.prototype) {
+            /* check to make sure the receiving class doesn't
+            have a method of the same name as the one currently being processed */
+            if (!receivingClass.prototype[methodName]) {
+                receivingClass.prototype[methodName] = givingClass.prototype[methodName];
+            }
+        }
+    }
+}
+
+// Augment the Car have the methods 'driveForward' and 'driveBackward'*/ 
+augment(Car, Mixin, 'driveForward', 'driveBackward'); 
+
+// Create a new Car
+var vehicle = new Car({
+    model: 'Ford Escort',
+    colour: 'blue'
+});
+
+// Test to make sure we now have access to the methods 
+vehicle.driveForward();
+vehicle.driveBackward();
+{{/content}}

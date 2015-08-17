@@ -1,9 +1,63 @@
 {{#extend "default"}}
     {{#content "body"}}
+      {{> codes }}
        <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <h2>The Creational Pattern</h2>
+            <div class="col-md-9">
+                
+                <div class="page-header"><h1 id="Creational">The Creational Pattern</h1></div>
+                <p>It deals with the idea of creating new things, specifically new objects. In JavaScript, the three common ways to create new objects are as follows:</p>
+                <pre><code class="javascript">{{#block "creational"}} //Empty code block {{/block}}</code></pre>
+                <p>There are then four ways in which keys and values can then be assigned to an object:</p>
+                <pre><code class="javascript">{{#block "creational-assigned"}} //Empty code block {{/block}}</code></pre>
+                
+                <div class="page-header"><h1 id="Constructor">The Constructor Pattern</h1></div>
+                <p>Constructors are used to create specific types of objects they both prepare the object for use and can also accept parameters which the constructor uses to set the values of member variables when the object is first created.</p>
+                
+                <h3 id="basic_constructors">Basic Constructors</h3>
+                <p>By simply prefixing a call to a constructor function with the keyword 'new', you can tell JavaScript you would like function to behave like a constructor and instantiate a new object with the members defined by that function.Inside a constructor, the keyword 'this' references the new object that's being created.</p>
+                <pre><code class="javascript">{{#block "basic-constructor"}} //Empty code block {{/block}}</code></pre>
+                
+                <h3 id="constructors_with_prototypes">Constructors With Prototypes</h3>
+                <p>When you call a JavaScript constructor to create an object, all the properties of the constructor's prototype are then made available to the new object. In this fashion, multiple Car objects can be created which access the same prototype</p>
+                <pre><code class="javascript">{{#block "prototype"}} //Empty code block {{/block}}</code></pre>
+                
+                <div class="page-header"><h1 id="Singleton">The Singleton Pattern</h1></div>
+                <p>In its simplest form, a singleton in JS can be an object literal grouped together with its related methods and properties as follows:</p>
+                <pre><code class="javascript">{{#block "singleton"}} //Empty code block {{/block}}</code></pre>
+                <p>If you wished to extend this further, you could add your own private members and methods to the singleton by encapsulating variable and function declarations inside a closure. Exposing only those which you wish to make public is quite straight-forward from that point as demonstrated below:</p>
+                <pre><code class="javascript">{{#block "singleton2"}} //Empty code block {{/block}}</code></pre>
+                <p>The above example is great, but let's next consider a situation where you only want to instantiate the singleton when it's needed. To save on resources, you can place the instantiation code inside another constructor function as follows:</p>
+                <pre><code class="javascript">{{#block "singleton3"}} //Empty code block {{/block}}</code></pre>
+                <p><strong>So, where else is the singleton pattern useful in practice?</strong>. Well, it's quite useful when exactly one object is needed to coordinate patterns across the system.</p>
+                <pre><code class="javascript">{{#block "singleton4"}} //Empty code block {{/block}}</code></pre>
+                
+                <div class="page-header"><h1 id="Prototype">The Prototype Pattern</h1></div>
+                <p>One of the benefits of using the prototype pattern is that we're working with the strengths JavaScript has to offer natively rather than attempting to imitate features of other languages. With other design patterns, this isn't always the case. Not only is the pattern an easy way to implement inheritance, but it can also come with a performance boost as well: when defining a function in an object, they're all created by reference (so all child objects point to the same function) instead of creating their own individual copies.</p>
+                <p><strong>For those interested…</strong> Real prototypal inheritance, as defined in the ECMAScript 5 standard, requires the use of Object.create.</p>
+                <pre><code class="javascript">{{#block "real-prototype"}} //Empty code block {{/block}}</code></pre>
+                <p>If you wish to implement the prototype pattern without directly using Object.create, you can simulate the pattern as per the above example as follows:</p>
+                <pre><code class="javascript">{{#block "prototype2"}} //Empty code block {{/block}}</code></pre>
+                
+                <div class="page-header"><h1 id="Mixin">The Mixin Pattern</h1></div>
+                <p>In traditional object-oriented programming languages, mixins are classes which provide the functionality to be inherited by a subclass. Inheriting from mixins are a means of collecting functionality and classes may inherit functionality from multiple mixins through multiple inheritance.</p>
+                <pre><code class="javascript">{{#block "mixin"}} //Empty code block {{/block}}</code></pre>
+            </div>
+            <div class="col-md-3">
+                <nav id="affixSpy" data-spy="affix">
+                    <ul class="nav">
+                        <li><a href="#Creational">Creational</a></li>
+                        <li><a href="#Constructor">Constructor</a>
+                            <ul class="nav">
+                                <li><a href="#basic_constructors">Basic Constructors</a></li>
+                                <li><a href="#constructors_with_prototypes">Constructors with Prototypes</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#Singleton">Singleton</a></li>
+                        <li><a href="#Prototype">Prototype</a></li>
+                        <li><a href="#Mixin">Mixin</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
         </div>

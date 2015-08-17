@@ -175,7 +175,7 @@ module.exports = function (grunt) {
             },
             javascript: {
                 files: ['./src/**/*.js'],
-                tasks: ['copy:build'],
+                tasks: ['copy:build', 'string-replace:build'],
             },
             json: {
                 files: ['./src/**/*.json'],

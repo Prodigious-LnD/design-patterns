@@ -1,8 +1,11 @@
+jQuery.inc("vendors.bootstrap");
+jQuery.inc("vendors.highlight");
+
 jQuery.clss("views.index", {
 	/* Constants */
 	/* ======================================================== */
 	uses: ['Users'],
-
+    
 	/* Variables */
 	/* ======================================================== */
 	
@@ -25,7 +28,8 @@ jQuery.clss("views.index", {
 	},
 
 	_bindEvents: function() {
-        
+        hljs.initHighlightingOnLoad();
+        $('body').scrollspy({ target: '#affixSpy' })
 	},
 
 	_uses: function() {

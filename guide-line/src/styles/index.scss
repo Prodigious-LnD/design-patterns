@@ -1,3 +1,36 @@
 @import "../core/styles/main";
+@import "vendors/railscasts";
 
 $desktop-width: 1024px;
+
+ul.nav {
+    li {
+        a {
+            color: #767676;
+            font-size: 13px;
+            font-weight: 500;
+            &:hover {
+                background: none;
+                color: #767676;
+                border-left: 1px solid #563d7c;
+            }
+        }
+        &.active {
+            >a {
+                border-left: 2px solid #563d7c;
+                color: #563d7c;
+                font-weight: 700;
+            }
+            ul { 
+                display: block;
+            }
+        }
+        ul {
+            display: none;
+            li a{ 
+                font-weight: 12px;
+                padding-left: 20px; 
+            }
+        }
+    }
+}
