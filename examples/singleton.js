@@ -29,7 +29,6 @@ single.publicMethod(); // logs 'something private'
 console.log(single.publicVar); // logs 'the public can see this!' 
 
 
-
 var Singleton = (function () {
     var instantiated;
 
