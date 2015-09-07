@@ -4,7 +4,7 @@ if (typeof $.debug === "undefined") { $.debug = { log: function(){} } }
     $.extend({
 		/* Constants */
 		/* ======================================================== */
-        JS_PATH: 'javascript/',
+        JS_PATH: '/javascript/',
         JS_EXTENSION: '.js',
 
 		/* Variables */

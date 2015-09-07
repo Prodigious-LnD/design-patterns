@@ -1,18 +1,15 @@
-jQuery.inc("vendors.bootstrap");
-
-jQuery.clss("views.index", {
+jQuery.clss("views.samples", {
 	/* Constants */
 	/* ======================================================== */
 	uses: [],
     
 	/* Variables */
 	/* ======================================================== */
-    $body: $('body'),
-	
+    
 	/* Constructor */
 	/* ======================================================== */
 	_constructor: function() {
-		$.views.index.init();
+		$.views.samples.init();
 	},
 
 	init: function() {

@@ -1,3 +1,39 @@
+{{#content "getAllElements"}}
+//Select all of the elements in the page and then store them. Next, filter this list and use regular expressions (or another means) to only store those with the class "foo".
+function getAllElements(cls) {
+    //Init
+    var elements, results = [], curClass;  
+
+    //Get all children of the scope node
+    elements = document.getElementsByTagName('*');
+
+    for( var i=0; i < elements.length; i++ ){
+        curClass = elements[i].getAttribute('class');
+        if(curClass != null){
+            curClass = curClass.split(" ");
+            for( var j=0; j < curClass.length; j++){
+                if(curClass[j] === cls){
+                    results.push( elements[i] );
+                    break;
+                }
+            }
+        }
+    }
+
+    return results;
+}
+
+//Use a modern native browser feature such as querySelectorAll() to select all of the elements with the class "foo".
+function querySelectorAll(cls) {
+    return document.querySelectorAll(cls);
+}
+
+//Use a native feature such as getElementsByClassName() to similarly get back the desired list.
+function getElementsByClassName(cls) {
+    return document.getElementsByClassName(cls);
+}
+{{/content}}
+
 {{#content "creational" }}
 // Each of the following options will create a new empty object: 
 var newObject = {}; // or

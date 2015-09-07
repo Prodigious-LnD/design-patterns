@@ -1,7 +1,7 @@
 function Samples(){}
 
 Samples.prototype.session1 = {
-    getElements: function(cls) {
+    getAllElements: function(cls) {
         //Init
         var elements, results = [], curClass;  
 

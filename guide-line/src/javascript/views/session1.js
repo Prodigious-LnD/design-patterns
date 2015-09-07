@@ -1,6 +1,7 @@
 jQuery.inc("vendors.bootstrap");
+jQuery.inc("vendors.highlight");
 
-jQuery.clss("views.index", {
+jQuery.clss("views.session1", {
 	/* Constants */
 	/* ======================================================== */
 	uses: [],
@@ -8,11 +9,11 @@ jQuery.clss("views.index", {
 	/* Variables */
 	/* ======================================================== */
     $body: $('body'),
-	
+    
 	/* Constructor */
 	/* ======================================================== */
 	_constructor: function() {
-		$.views.index.init();
+		$.views.session1.init();
 	},
 
 	init: function() {
@@ -26,9 +27,10 @@ jQuery.clss("views.index", {
 	_bindData: function() {
         
 	},
-
+    
 	_bindEvents: function() {
-        
+        hljs.initHighlightingOnLoad();
+        this.$body.scrollspy({ target: '#affixSpy' });
 	},
 
 	_uses: function() {

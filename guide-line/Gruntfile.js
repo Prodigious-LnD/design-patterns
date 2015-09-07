@@ -7,7 +7,7 @@ module.exports = function (grunt) {
         assemble: {
             options: {
                 assets: './src/',
-                data: ['./src/core/data/*.{json,yml}', './src/data/*.{json,yml}'],
+                data: ['./src/core/data/*.{json,yml}', './src/data/**/*.{json,yml}'],
                 layoutdir: './src/layouts/',
                 layout: false,
                 partials: [
@@ -141,6 +141,17 @@ module.exports = function (grunt) {
                         replacement: 'js/'
                     }]
                 }
+            },
+            images: {
+                files: {
+                    './build/': ['./build/**/*.css', './build/**/*.html']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /images\//g,
+                        replacement: 'img/'
+                    }]
+                }
             }
         },
 
@@ -159,7 +170,7 @@ module.exports = function (grunt) {
         watch: {
             css: {
                 files: ['./src/**/*.scss'],
-                tasks: ['compass:build']
+                tasks: ['compass:build', 'string-replace:images']
             },
             font: {
                 files: ['./src/**/*.{otf,ttf,woff,eot,svg}'],
@@ -167,7 +178,7 @@ module.exports = function (grunt) {
             },
             html: {
                 files: ['./src/**/*.hbs'],
-                tasks: ['assemble']
+                tasks: ['assemble', 'string-replace:images']
             },
             images: {
                 files: ['./src/**/*.{jpg,gif,png}'],
@@ -197,7 +208,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-string-replace');
 
     // Register the default tasks.
-    grunt.registerTask('default', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace:build', 'browserSync', 'watch']);
-    grunt.registerTask('build', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace:build']);
+    grunt.registerTask('default', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace', 'browserSync', 'watch']);
+    grunt.registerTask('build', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace']);
     grunt.registerTask('dist', ['clean:dist', 'compass:dist', 'copy:dist', 'imagemin:dist', 'uglify:dist', 'processhtml']);
 };

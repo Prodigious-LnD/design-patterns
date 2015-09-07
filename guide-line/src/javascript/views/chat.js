@@ -1,18 +1,15 @@
-jQuery.inc("vendors.bootstrap");
-
-jQuery.clss("views.index", {
+jQuery.clss("views.chat", {
 	/* Constants */
 	/* ======================================================== */
 	uses: [],
     
 	/* Variables */
 	/* ======================================================== */
-    $body: $('body'),
-	
+    
 	/* Constructor */
 	/* ======================================================== */
 	_constructor: function() {
-		$.views.index.init();
+		$.views.chat.init();
 	},
 
 	init: function() {
