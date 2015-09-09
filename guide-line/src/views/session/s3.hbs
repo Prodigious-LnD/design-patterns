@@ -1,26 +1,92 @@
 {{#extend "default"}}
     {{#content "body"}}
-      {{> codes }}
-       <div class="container">
-        <div class="row">
-           <div class="col-md-9">
-               <div class="page-header"><h1 id="Whatis">MV* Patterns</h1></div>
-               <p><b>MVC</b><br>JavaScript now has a number of frameworks boasting support for MVC, allowing developers to easily add structure to their applications without great effort.</p>
-               <p><b>MVVM</b><br>MVVM (Model View ViewModel) is an architectural pattern based on MVC and MVP, which attempts to more clearly separate the development of user-interfaces (UI) from that of the business logic and behavior in an application.</p>
-               
-               <div class="page-header"><h1 id="Whatis">MV* Patterns (MVC)</h1></div>
-               <p><b>Models</b><br>manage the data for an application. When a model changes, it will typically notify its observers that a change has occurred so that they may react accordingly.</p>
-               <p><b>Views</b><br>are a visual representation of models that present a filtered view of their current state. A view typically observes a model and is notified when the model changes, allowing the view to update itself accordingly.</p>
-               <p><b>Controllers</b><br>are an intermediary between models and views which are classically responsible for two tasks: they both update the view when the model changes and update the model when the user manipulates the view.</p>
-               
-               <div class="page-header"><h1 id="Whatis">MV* Patterns (MVVM)</h1></div>
-               <p><b>Model</b><br> As with other members of the MV* family, the Model in MVVM represents domain specific data or information that our application will be working with.</p>
-               <p><b>View</b><br>MVVM View is considered active rather than passive and contains the data-bindings, events and behaviors which require an understanding of the Model and ViewModel.</p>
-               <p><b>ViewModel</b><br>The ViewModel can be considered a specialized Controller that acts as a data converter. It changes Model information into View information, passing commands from the View to the Model.</p>
-               
-               <div class="page-header"><h1 id="Whatis">MVVM Example with Knockout JS</h1></div>
-           </div>
-        </div>
+        {{> codes }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="page-header">
+                        <h1 id="Whatis">MV* Patterns</h1></div>
+                    <p><b>MVC</b>
+                        <br>JavaScript now has a number of frameworks boasting support for MVC, allowing developers to easily add structure to their applications without great effort.</p>
+                    <p><b>MVVM</b>
+                        <br>MVVM (Model View ViewModel) is an architectural pattern based on MVC and MVP, which attempts to more clearly separate the development of user-interfaces (UI) from that of the business logic and behavior in an application.</p>
+
+                    <div class="page-header">
+                        <h1 id="Whatis">MV* Patterns (MVC)</h1></div>
+                    <p><b>Models</b>
+                        <br>manage the data for an application. When a model changes, it will typically notify its observers that a change has occurred so that they may react accordingly.</p>
+                    <p><b>Views</b>
+                        <br>are a visual representation of models that present a filtered view of their current state. A view typically observes a model and is notified when the model changes, allowing the view to update itself accordingly.</p>
+                    <p><b>Controllers</b>
+                        <br>are an intermediary between models and views which are classically responsible for two tasks: they both update the view when the model changes and update the model when the user manipulates the view.</p>
+
+                    <div class="page-header">
+                        <h1 id="Whatis">MV* Patterns (MVVM)</h1></div>
+                    <p><b>Model</b>
+                        <br> As with other members of the MV* family, the Model in MVVM represents domain specific data or information that our application will be working with.</p>
+                    <p><b>View</b>
+                        <br>MVVM View is considered active rather than passive and contains the data-bindings, events and behaviors which require an understanding of the Model and ViewModel.</p>
+                    <p><b>ViewModel</b>
+                        <br>The ViewModel can be considered a specialized Controller that acts as a data converter. It changes Model information into View information, passing commands from the View to the Model.</p>
+
+                    <div class="page-header">
+                        <h1 id="Whatis">MVVM Example with Knockout JS</h1></div>
+                    <div class="demo">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#examples" aria-controls="examples" role="tab" data-toggle="tab">DEMO</a></li>
+                            <li role="presentation"><a href="#html" aria-controls="html" role="tab" data-toggle="tab">&lt;HTML&gt;</a></li>
+                            <li role="presentation"><a href="#css" aria-controls="css" role="tab" data-toggle="tab">&lt;STYLE&gt;</a></li>
+                            <li role="presentation"><a href="#js" aria-controls="js" role="tab" data-toggle="tab">&lt;SCRIPT&gt;</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active demo-container" id="examples">
+                               <div class="row">
+                                   <div class="col-md-6">
+                                       <form id="userForm" class="form-inline">
+                                            <div class="form-group" data-bind="with:user">
+                                                <input type="text" class="form-control input-lg" placeholder="Username" data-bind="value:username">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                                        </form>
+                                   </div>
+                                    <div class="col-md-6">
+                                        <dl class="dl-horizontal" data-bind="with:user">
+                                            <dt>Username</dt>
+                                            <dds data-bind="text:username"></dd>
+                                        </dl>
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       <table class="table table-bordered table-striped">
+                                          <thead>
+                                               <tr>
+                                                   <th>#</th>
+                                                   <th>Username</th>
+                                                   <th>Remove</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody data-bind="foreach:users">
+                                               <tr>
+                                                   <td data-bind="text:($index() + 1)"></td>
+                                                   <td data-bind="text:username"></td>
+                                                   <td></td>
+                                               </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="html">...</div>
+                            <div role="tabpanel" class="tab-pane" id="css">...</div>
+                            <div role="tabpanel" class="tab-pane" id="js">...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     {{/content}}
 {{/extend}}

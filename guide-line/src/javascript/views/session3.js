@@ -1,12 +1,16 @@
+jQuery.inc("vendors.bootstrap");
+
 jQuery.clss("views.session3", {
 	/* Constants */
 	/* ======================================================== */
-	uses: [],
+	uses: ['Users'],
     
 	/* Variables */
 	/* ======================================================== */
-    
-	/* Constructor */
+    demoContainer: $(".demo-container"),
+    userForm: $("#userForm"),
+	
+    /* Constructor */
 	/* ======================================================== */
 	_constructor: function() {
 		$.views.session3.init();
@@ -21,21 +25,30 @@ jQuery.clss("views.session3", {
 	/* Private Methods */
 	/* ======================================================== */
 	_bindData: function() {
-        
+        ko.applyBindings($.models.users.viewModel, this.demoContainer.get(0));
 	},
 
 	_bindEvents: function() {
+        var _this = this;
         
+        this.userForm.on('submit', function(e) { _this.userFormOnSubmit(e); });
 	},
 
 	_uses: function() {
 		this.parent._uses(this.uses);
-	}
+	},
 
 	/* Public Methods */
 	/* ======================================================== */
 
 	/* Events */
 	/* ======================================================== */
+    userFormOnSubmit: function(e) {
+        e.preventDefault();
+        
+        $.models.users.addUser($.models.users.getUser());
+        
+        return false;
+    },
 
 })();
