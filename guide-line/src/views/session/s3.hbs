@@ -36,7 +36,6 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#examples" aria-controls="examples" role="tab" data-toggle="tab">DEMO</a></li>
                             <li role="presentation"><a href="#html" aria-controls="html" role="tab" data-toggle="tab">&lt;HTML&gt;</a></li>
-                            <li role="presentation"><a href="#css" aria-controls="css" role="tab" data-toggle="tab">&lt;STYLE&gt;</a></li>
                             <li role="presentation"><a href="#js" aria-controls="js" role="tab" data-toggle="tab">&lt;SCRIPT&gt;</a></li>
                         </ul>
 
@@ -45,17 +44,27 @@
                             <div role="tabpanel" class="tab-pane active demo-container" id="examples">
                                <div class="row">
                                    <div class="col-md-6">
-                                       <form id="userForm" class="form-inline">
-                                            <div class="form-group" data-bind="with:user">
+                                       <form id="userForm" class="form-horizontal" data-bind="with:user">
+                                            <div class="form-group">
                                                 <input type="text" class="form-control input-lg" placeholder="Username" data-bind="value:username">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control input-lg" placeholder="Full Name" data-bind="value:fullname">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control input-lg" placeholder="Email" data-bind="value:email">
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-lg">Add</button>
                                         </form>
                                    </div>
                                     <div class="col-md-6">
                                         <dl class="dl-horizontal" data-bind="with:user">
-                                            <dt>Username</dt>
-                                            <dds data-bind="text:username"></dd>
+                                            <dt>Username: </dt>
+                                            <dd data-bind="text:username"></dd>
+                                            <dt>Full Name: </dt>
+                                            <dd data-bind="text:fullname"></dd>
+                                            <dt>Email: </dt>
+                                            <dd data-bind="text:email"></dd>
                                         </dl>
                                    </div>
                                </div>
@@ -66,6 +75,8 @@
                                                <tr>
                                                    <th>#</th>
                                                    <th>Username</th>
+                                                   <th>Full Name</th>
+                                                   <th>Email</th>
                                                    <th>Remove</th>
                                                </tr>
                                            </thead>
@@ -73,6 +84,8 @@
                                                <tr>
                                                    <td data-bind="text:($index() + 1)"></td>
                                                    <td data-bind="text:username"></td>
+                                                   <td data-bind="text:fullname"></td>
+                                                   <td data-bind="text:email"></td>
                                                    <td></td>
                                                </tr>
                                            </tbody>
@@ -80,9 +93,20 @@
                                    </div>
                                </div>
                             </div>
-                            <div role="tabpanel" class="tab-pane" id="html">...</div>
-                            <div role="tabpanel" class="tab-pane" id="css">...</div>
-                            <div role="tabpanel" class="tab-pane" id="js">...</div>
+                            <div role="tabpanel" class="tab-pane" id="html">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <pre><code class="html">{{#block "mvvm_html"}} //Empty code block {{/block}}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="js">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <pre><code class="javascript">{{#block "mvvm_javascript"}} //Empty code block {{/block}}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

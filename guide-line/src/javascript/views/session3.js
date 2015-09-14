@@ -1,4 +1,5 @@
 jQuery.inc("vendors.bootstrap");
+jQuery.inc("vendors.highlight");
 
 jQuery.clss("views.session3", {
 	/* Constants */
@@ -31,6 +32,7 @@ jQuery.clss("views.session3", {
 	_bindEvents: function() {
         var _this = this;
         
+        hljs.initHighlightingOnLoad();
         this.userForm.on('submit', function(e) { _this.userFormOnSubmit(e); });
 	},
 

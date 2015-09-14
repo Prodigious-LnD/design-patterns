@@ -328,3 +328,73 @@ var vehicle = new Car({
 vehicle.driveForward();
 vehicle.driveBackward();
 {{/content}}
+
+
+{{#content "mvvm_html"}}
+    &lt;div class="row"&gt;
+       &lt;div class="col-md-6"&gt;
+           &lt;form id="userForm" class="form-horizontal" data-bind="with:user"&gt;
+                &lt;div class="form-group"&gt;
+                    &lt;input type="text" class="form-control input-lg" placeholder="Username" data-bind="value:username"&gt;
+                &lt;/div&gt;
+                &lt;div class="form-group"&gt;
+                    &lt;input type="text" class="form-control input-lg" placeholder="Full Name" data-bind="value:fullname"&gt;
+                &lt;/div&gt;
+                &lt;div class="form-group"&gt;
+                    &lt;input type="email" class="form-control input-lg" placeholder="Email" data-bind="value:email"&gt;
+                &lt;/div&gt;
+                &lt;button type="submit" class="btn btn-primary btn-lg"&gt;Add&lt;/button&gt;
+            &lt;/form&gt;
+       &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;dl class="dl-horizontal" data-bind="with:user"&gt;
+                &lt;dt&gt;Username: &lt;/dt&gt;
+                &lt;dd data-bind="text:username"&gt;&lt;/dd&gt;
+                &lt;dt&gt;Full Name: &lt;/dt&gt;
+                &lt;dd data-bind="text:fullname"&gt;&lt;/dd&gt;
+                &lt;dt&gt;Email: &lt;/dt&gt;
+                &lt;dd data-bind="text:email"&gt;&lt;/dd&gt;
+            &lt;/dl&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="row"&gt;
+       &lt;div class="col-md-12"&gt;
+           &lt;table class="table table-bordered table-striped"&gt;
+              &lt;thead&gt;
+                   &lt;tr&gt;
+                       &lt;th&gt;#&lt;/th&gt;
+                       &lt;th&gt;Username&lt;/th&gt;
+                       &lt;th&gt;Full Name&lt;/th&gt;
+                       &lt;th&gt;Email&lt;/th&gt;
+                       &lt;th&gt;Remove&lt;/th&gt;
+                   &lt;/tr&gt;
+               &lt;/thead&gt;
+               &lt;tbody data-bind="foreach:users"&gt;&lt;/tbody&gt;
+           &lt;/table&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;
+{{/content}}
+
+
+{{#content "mvvm_javascript"}}
+    // $.models.users
+    ...
+    viewModel: { 
+        users   :   ko.observableArray(),
+        user    :   ko.mapping.fromJS({
+            username: '',
+            fullname: '',
+            email: '',
+            type: 'user'
+        })
+    },
+    ...
+
+    //$.views.session3
+    ...
+    _bindData: function() {
+        ko.applyBindings($.models.users.viewModel, this.demoContainer.get(0));
+    },
+    ...
+{{/content}}

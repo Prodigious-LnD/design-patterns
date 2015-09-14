@@ -9,6 +9,8 @@ jQuery.clss("models.users", {
         users   :   ko.observableArray(),
         user    :   ko.mapping.fromJS({
             username: '',
+            fullname: '',
+            email: '',
             type: 'user'
         })
 	},
@@ -39,6 +41,8 @@ jQuery.clss("models.users", {
     
     _resetUser: function() {
         this.viewModel.user.username("");
+        this.viewModel.user.fullname("");
+        this.viewModel.user.email("");
     },
     
 	/* Public Methods */

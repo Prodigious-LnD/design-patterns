@@ -1,6 +1,7 @@
 if (typeof $.debug === "undefined") { $.debug = { log: function(){} } }
 
 (function($) {
+    $.support.cors = true;
     $.extend({
 		/* Constants */
 		/* ======================================================== */
