@@ -33,6 +33,8 @@ jQuery.clss("views.session3", {
         var _this = this;
         
         hljs.initHighlightingOnLoad();
+        
+        $('body').on('click', '.btn-delete', function(e){ _this.deleteButtonOnClick(e); });
         this.userForm.on('submit', function(e) { _this.userFormOnSubmit(e); });
 	},
 
@@ -45,12 +47,19 @@ jQuery.clss("views.session3", {
 
 	/* Events */
 	/* ======================================================== */
+    deleteButtonOnClick: function(e) {
+        var $element = $(e.target);
+        
+        $.models.users.deleteUser({
+            username: $element.data('username')
+        });
+    },
+    
     userFormOnSubmit: function(e) {
         e.preventDefault();
         
         $.models.users.addUser($.models.users.getUser());
         
         return false;
-    },
-
+    }
 })();

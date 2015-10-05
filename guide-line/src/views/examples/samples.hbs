@@ -1,10 +1,31 @@
 {{#extend "default"}}
     {{#content "body"}}
-      {{> codes }}
-       <div class="container">
-        <div class="row">
-           <div class="col-md-12"></div>
-        </div>
+        {{> codes }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="jumbotron">
+                        <h1>Practices samples</h1>
+                        <p>On this section we going to create a chat application following different steps separated into design patterns that we have learned.</p>
+                    </div>
+                    <div class="page-header"><h1 id="Creational">Creational Pattern Sample</h1></div>
+                    <p>We going to create a new object that we'll call <i>"chat_room"</i> and inside we will add a property object call <i>"user_info"</i> with some properties based on an user person. We can use the follow example:</p>
+                    <pre><code class="javascript">{{#block "creational_sample_basic"}} //Empty code block {{/block}}</code></pre>
+                    <p>After we have created the <i>"user_info"</i> object we'll include two new properties, the first one <i>"chat_history"</i> and the second one <i>"chat_users"</i>, both properties will be arrays. The result should be like this:</p>
+                    <pre><code class="javascript">{{#block "creational_sample_full"}} //Empty code block {{/block}}</code></pre>
+                    <p>The <i>"chat_users"</i> property will have an array of <i>"user_info"</i> object of all users will connect to chat. The <i>"chat_history"</i> property will have an array of <i>"chat_messages"</i> of all sent messages.</p>
+                    
+                    <div class="page-header"><h1 id="Constructor">Constructor Pattern Sample</h1></div>
+                    <p>Here begin the main part of our chat application. So, we will create the constructor of the chat that we'll call "Chat". The code sould be like this:</p>
+                    <pre><code class="javascript">{{#block "constructor_sample_main"}} //Empty code block {{/block}}</code></pre>
+                    <p>Ok, now we will extend our "class" Chat and add the functionality. First we will add some properties as showing the following code</p>
+                    <pre><code class="javascript">{{#block "constructor_sample_body"}} //Empty code block {{/block}}</code></pre>
+                    <div class="page-header"><h1 id="Whatis">MV* Pattern Sample (MVVM)</h1></div>
+                    <p>Our chat application will use something call <i>"model"</i>. But, what means?. Ok! the <i>"model"</i> comes to be the manager of all data flow and we will use the pattern Model-View-ViewModel (MVVM) with help the library <strong>knockoutjs</strong>. Our code for the Chat Model should be like this:</p>
+                    <pre><code class="javascript">{{#block "mvvm_sample_model"}} //Empty code block {{/block}}</code></pre>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
         </div>
     {{/content}}
 {{/extend}}

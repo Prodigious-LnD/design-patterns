@@ -20,8 +20,7 @@
                     <p><b>Controllers</b>
                         <br>are an intermediary between models and views which are classically responsible for two tasks: they both update the view when the model changes and update the model when the user manipulates the view.</p>
 
-                    <div class="page-header">
-                        <h1 id="Whatis">MV* Patterns (MVVM)</h1></div>
+                    <div class="page-header"><h1 id="Whatis">MV* Patterns (MVVM)</h1></div>
                     <p><b>Model</b>
                         <br> As with other members of the MV* family, the Model in MVVM represents domain specific data or information that our application will be working with.</p>
                     <p><b>View</b>
@@ -44,7 +43,7 @@
                             <div role="tabpanel" class="tab-pane active demo-container" id="examples">
                                <div class="row">
                                    <div class="col-md-6">
-                                       <form id="userForm" class="form-horizontal" data-bind="with:user">
+                                       <form id="userForm" data-bind="with:user">
                                             <div class="form-group">
                                                 <input type="text" class="form-control input-lg" placeholder="Username" data-bind="value:username">
                                             </div>
@@ -77,7 +76,7 @@
                                                    <th>Username</th>
                                                    <th>Full Name</th>
                                                    <th>Email</th>
-                                                   <th>Remove</th>
+                                                   <th style="width: 40px;">Remove</th>
                                                </tr>
                                            </thead>
                                            <tbody data-bind="foreach:users">
@@ -86,7 +85,11 @@
                                                    <td data-bind="text:username"></td>
                                                    <td data-bind="text:fullname"></td>
                                                    <td data-bind="text:email"></td>
-                                                   <td></td>
+                                                   <td class="text-center">
+                                                        <button type="button" class="btn btn-default btn-delete">
+                                                            <span class="glyphicon glyphicon-trash" data-bind="attr: {'data-username': username}"></span>
+                                                        </button>
+                                                   </td>
                                                </tr>
                                            </tbody>
                                        </table>

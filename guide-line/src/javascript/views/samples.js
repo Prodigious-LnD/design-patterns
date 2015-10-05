@@ -1,3 +1,6 @@
+jQuery.inc("vendors.bootstrap");
+jQuery.inc("vendors.highlight");
+
 jQuery.clss("views.samples", {
 	/* Constants */
 	/* ======================================================== */
@@ -25,7 +28,7 @@ jQuery.clss("views.samples", {
 	},
 
 	_bindEvents: function() {
-        
+        hljs.initHighlightingOnLoad();
 	},
 
 	_uses: function() {

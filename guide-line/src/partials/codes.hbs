@@ -299,7 +299,7 @@ Mixin.prototype = {
 function augment(receivingClass, givingClass) { 
     // only provide certain methods
     if (arguments[2]) {
-        for (var i = 2, len = arguments.length; i < len; i++) {
+        for (var i = 2, len = arguments.length; i &lt; len; i++) {
             receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]];
         }
     }
@@ -397,4 +397,163 @@ vehicle.driveBackward();
         ko.applyBindings($.models.users.viewModel, this.demoContainer.get(0));
     },
     ...
+{{/content}}
+
+
+
+
+{{!-- Practices samples --}}
+{{!-- ======================================================== --}}
+
+{{#content "creational_sample_basic"}}
+// Basic user_info object
+var chat_room = {
+    user_info: {
+        username: "",
+        fullname: "",
+        birthday: "",
+        email: ""
+    }
+}
+{{/content}}
+
+
+{{#content "creational_sample_full"}}
+// Include chat_history and chat_users objects
+var chat_room = {
+    user_info: {
+        username: "",
+        fullname: "",
+        birthday: "",
+        email: ""
+    },
+    chat_history: [],
+    chat_users: []
+}
+{{/content}}
+
+
+{{#content "constructor_sample_main"}}
+//Basic Constructor
+function Chat(options) {
+    this.socket = options.socket || null;
+    this._connect = options.onConnect || function(){};
+    this._disconnect = options.onDisconnect || function(){};
+    
+    if(this.socket) {
+        this.init();
+    }
+}
+{{/content}}
+
+{{#content "constructor_sample_body"}}
+//Constructor with prototype
+Chat.prototype = {
+    init: function() {
+        this._bindEvents();
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    _bindEvents: function() {
+        this.socket.on('connect', this.socketOnConnet.bind(this));
+        this.socket.on('disconnect', this.socketOnDisconnet.bind(this));
+        this.socket.on('message', this.socketOnMessage.bind(this));
+    },
+    
+    _message: function(data) {
+        this.model.addMessage(data);
+    },
+    
+    /* Public Methods */
+    /* ======================================================== */
+    addUser: function(data, callback) {
+        this.socket.emit('addUser', data, callback);
+    },
+    
+    send: function(message, callback) { 
+        this.socket.emit('message', message, callback);
+    },
+
+    /* Events */
+    /* ======================================================== */
+    socketOnConnet: function() {
+        this._connect();
+    },
+    
+    socketOnDisconnet: function() {
+        this._disconnect();
+    },
+
+    socketOnMessage: function(data) {
+        this._message(data);
+    }
+}
+
+{{/content}}
+
+
+{{#content "mvvm_sample_model"}}
+Chat.prototype.model = {
+    /* Variables */
+    /* ======================================================== */
+    viewModel: { 
+        user_info: ko.mapping.fromJS({
+            username: "",
+            fullname: "",
+            birthday: "",
+            email: "",
+            avatar: '',
+            type: 'user'
+        }),
+        chat_history: ko.observableArray([]),
+        chat_users: ko.observableArray([])
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    init: function () {
+        this.viewModel.getAvatar = this._getAvatar.bind(this);
+        this.viewModel.loadAvatar = this._loadAvatar.bind(this);
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    _loadAvatar: function (file, data) {
+        this.viewModel.user.avatar(data);
+    },
+
+    _getAvatar: function (username) {
+        var chat_users = this.viewModel.chat_users();
+        var avatar = "";
+
+        $.each(chat_users, function(){
+            if(this.username == username) {
+                avatar = this.avatar;
+            }
+        });
+
+        return avatar;
+    },
+
+    /* Public Methods */
+    /* ======================================================== */
+    addMessage: function(data) {
+        this.viewModel.chat_history.unshift(data);
+    },
+
+    addUser: function(data) {
+        this.viewModel.chat_users.push(data);
+    },
+
+    deleteUser: function(data) {
+        this.viewModel.chat_users.remove(function(user) {
+            return user.username == data.username;
+        });
+    },
+
+    getUser: function() {
+        return ko.mapping.toJS(this.viewModel.user);
+    }
+}
 {{/content}}
