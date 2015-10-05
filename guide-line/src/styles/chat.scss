@@ -1,1 +1,124 @@
 @import "main";
+@import "vendors/bootstrap/jasny";
+
+
+.main {
+    .main-content {
+        padding: 0px;
+        .section .section-content {
+            height: 100vh;
+            overflow: hidden;
+            padding: 0px;
+        }
+    }
+}
+
+#login {
+    height: 400px;
+    margin: auto;
+    width: 400px;
+    .fileinput {
+        display: block;
+        margin: auto;
+        position: relative;
+        width: 200px;
+        .fileinput-exists {
+            bottom: 10px;
+            position: absolute;
+            right: 5px;
+        }
+    }
+}
+
+#messages {
+    bottom: 94px;
+    left: 0px;
+    overflow: hidden;
+    padding-bottom: 10px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    
+    .table {
+        margin: 0px;
+        .table-cell {
+            vertical-align: bottom;
+        }
+    }
+    
+    .messages-wrapper {
+        max-height: 100%;
+        overflow: hidden;
+        overflow-y: auto; 
+    }
+    .message {
+        padding: 20px;
+        position: relative;
+        .popover {
+            display: block;
+            position: relative;
+            &.left {
+                float: right;
+                margin-left: 0px;
+                margin-right: 60px;
+                +.profile-image {
+                    right: 20px;
+                }
+            }
+            
+            &.right {
+                float: left;
+                margin-right: 0px;
+                margin-left: 60px;
+                +.profile-image {
+                    left: 20px;
+                }
+            }
+        }
+        .profile-image {
+            bottom: 0;
+            height: 45px;
+            margin: auto;
+            position: absolute;
+            //right: 20px;
+            top: 0;
+            width: 45px;
+            z-index: 100;
+            .icon {
+                background-color: #fff;
+                border: 2px solid #fff;
+                @include box-shadow(#000035 2px 2px 5px);
+                height: 100%;
+                vertical-align: top;
+                width: 100%;
+            }
+            .status {
+                background-color: #fff000;
+                @include border-radius(50%);
+                display: block;
+                height: 15px;
+                right: -5px;
+                position: absolute;
+                top: -5px;
+                width: 15px;
+            }
+        }
+    }
+}
+
+#tweets {
+    bottom: 0px;
+    height: 94px;
+    left: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    width: 100%;
+    .btn-send {
+        float: right;
+        padding: 24px;
+    }
+    
+    .txt-send {
+        margin-right: 100px;
+    }
+}

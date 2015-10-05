@@ -5,6 +5,7 @@ function Chat(options) {
     
     if(this.socket) {
         this.init();
+        this.model.init();
     }
 }
 

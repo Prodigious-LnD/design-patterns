@@ -2,8 +2,10 @@
 	display: table;
 	height: 100%;
 	width: 100%;
-	.table-cell {
-		display: table-cell;
-		height: 100%;
-	}
+    .table-row {
+        display: table-row;
+        .table-cell {
+            display: table-cell;
+        }
+    }
 }

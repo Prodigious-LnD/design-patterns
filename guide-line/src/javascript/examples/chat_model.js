@@ -17,8 +17,9 @@ Chat.prototype.model = {
 	/* Private Methods */
 	/* ======================================================== */
 	init: function () {
-		this.viewModel.getAvatar = this._getAvatar.bind(this);
-        this.viewModel.loadAvatar = this._loadAvatar.bind(this);
+		this.viewModel.loadAvatar = this._loadAvatar.bind(this);
+        this.viewModel.getAvatar = this._getAvatar.bind(this);
+        this.viewModel.isMe = this._isMe.bind(this);
 	},
 	
 	/* Private Methods */
@@ -31,6 +32,10 @@ Chat.prototype.model = {
         var chat_users = this.viewModel.chat_users();
         var avatar = "";
         
+        if(username == this.viewModel.user_info.username()) {
+            avatar = this.viewModel.user_info.avatar();
+        }
+        
         $.each(chat_users, function(){
             if(this.username == username) {
                 avatar = this.avatar;
@@ -39,11 +44,25 @@ Chat.prototype.model = {
         
         return avatar;
 	},
+    
+    _isMe: function(message) {
+        if(message.nodeType != 3) {
+            var element = $(message);
+            var popover = $(".popover", message);
+            var username = element.data('user');
+            
+            console.log(username);
+            
+            if(username == this.viewModel.user_info.username()) {
+                popover.removeClass("right").addClass("left");
+            }
+        }
+    },
 	
 	/* Public Methods */
 	/* ======================================================== */
 	addMessage: function(data) {
-        this.viewModel.chat_history.unshift(data);
+        this.viewModel.chat_history.push(data);
     },
     
     addUser: function(data) {
