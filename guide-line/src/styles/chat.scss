@@ -64,54 +64,53 @@
     }
     
     .messages-wrapper {
-        
-    }
-    .message {
-        padding: 20px;
-        position: relative;
-        .popover {
-            display: block;
+        .message {
+            padding: 20px;
             position: relative;
-            
-            .popover-content {
-                h5, .h5 {
-                    color: #dd5500;
-                    font-weight: 600;
-                    margin-bottom: 5px;
-                    margin-top: 0;
+            .popover {
+                display: block;
+                position: relative;
+
+                .popover-content {
+                    h5, .h5 {
+                        color: #dd5500;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                        margin-top: 0;
+                    }
+                }
+                &.left {
+                    float: right;
+                    margin-left: 0px;
+                    margin-right: 60px;
+                    h5, .h5 { display: none; }
+                    +.profile-image { right: 20px; }
+                }
+                &.right {
+                    float: left;
+                    margin-right: 0px;
+                    margin-left: 60px;
+                    +.profile-image { left: 20px; }
                 }
             }
-            &.left {
-                float: right;
-                margin-left: 0px;
-                margin-right: 60px;
-                h5, .h5 { display: none; }
-                +.profile-image { right: 20px; }
+            .profile-image {
+                bottom: 0;
+                height: 45px;
+                margin: auto;
+                position: absolute;
+                top: 0;
+                width: 45px;
+                z-index: 100;
+                .icon {
+                    background-color: #fff;
+                    border: 2px solid #fff;
+                    @include box-shadow(#000035 2px 2px 5px);
+                    height: 100%;
+                    vertical-align: top;
+                    width: 100%;
+                }
             }
-            &.right {
-                float: left;
-                margin-right: 0px;
-                margin-left: 60px;
-                +.profile-image { left: 20px; }
-            }
-        }
-        .profile-image {
-            bottom: 0;
-            height: 45px;
-            margin: auto;
-            position: absolute;
-            top: 0;
-            width: 45px;
-            z-index: 100;
-            .icon {
-                background-color: #fff;
-                border: 2px solid #fff;
-                @include box-shadow(#000035 2px 2px 5px);
-                height: 100%;
-                vertical-align: top;
-                width: 100%;
-            }
-        }
+        }   
     }
 }
 

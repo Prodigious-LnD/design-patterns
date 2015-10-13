@@ -1,3 +1,6 @@
+jQuery.inc("vendors.bootstrap");
+jQuery.inc("vendors.highlight");
+
 jQuery.clss("views.chat", {
 	/* Constants */
 	/* ======================================================== */
@@ -25,6 +28,7 @@ jQuery.clss("views.chat", {
 	},
 
 	_bindEvents: function() {
+        hljs.initHighlightingOnLoad();
 	},
 
 	_uses: function() {
