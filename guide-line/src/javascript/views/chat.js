@@ -1,7 +1,7 @@
 jQuery.inc("examples.chat");
 jQuery.inc("examples.chat_model");
-jQuery.inc("vendors.socket.io");
 jQuery.inc("vendors.bootstrap.jasny");
+jQuery.inc("vendors.socket.io");
 jQuery.inc("vendors.tweenmax");
 
 jQuery.clss("views.chat", {

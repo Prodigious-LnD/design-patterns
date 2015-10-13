@@ -8,6 +8,7 @@
                     <h1>Socket IO Chat</h1>
                     <p>On this section we going to know how was created our chat application.</p>
                 </div>
+                
                 <div class="page-header"><h1 id="Creational">HTML / CSS Template</h1></div>
                 <p>First we created the login window where the user chooses his nickname and avatar to use in the chat. The following HTML code was used:</p>
                 <!-- Nav tabs -->
@@ -42,6 +43,14 @@
                         <pre><code class="css">{{#block "socket_io_html_tmpl_messages_scss"}} //Empty code block {{/block}}</code></pre>
                     </div>
                </div>
+               
+               <div class="page-header"><h1 id="Creational">JavaScript Template</h1></div>
+               <p>HTML and CSS are nothing without JavaScript, the following code provide life to our chat. Here we call his dependencies, here we initialize the chat class, his models, his events and all things that make our chat a reality.</p>
+               <pre><code class="javascript">{{#block "socket_io_js_tmpl"}} //Empty code block {{/block}}</code></pre>
+               
+               <div class="page-header"><h1 id="Creational">NodeJS Socket IO Server</h1></div>
+               <p>Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine, for this reason we can include it into this training. In the following code, we can see a simple web socket created using <a href="http://socket.io/" target="_blank">socket.io</a> and will be the manager our chat.</p>
+               <pre><code class="javascript">{{#block "socket_io_nodejs_server"}} //Empty code block {{/block}}</code></pre>
            </div>
         </div>
         </div>

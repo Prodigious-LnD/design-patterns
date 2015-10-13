@@ -448,48 +448,45 @@ function Chat(options) {
 
 {{#content "constructor_sample_body"}}
 //Constructor with prototype
-Chat.prototype = {
-    init: function() {
-        this._bindEvents();
-    },
-
-    /* Private Methods */
-    /* ======================================================== */
-    _bindEvents: function() {
-        this.socket.on('connect', this.socketOnConnet.bind(this));
-        this.socket.on('disconnect', this.socketOnDisconnet.bind(this));
-        this.socket.on('message', this.socketOnMessage.bind(this));
-    },
-    
-    _message: function(data) {
-        this.model.addMessage(data);
-    },
-    
-    /* Public Methods */
-    /* ======================================================== */
-    addUser: function(data, callback) {
-        this.socket.emit('addUser', data, callback);
-    },
-    
-    send: function(message, callback) { 
-        this.socket.emit('message', message, callback);
-    },
-
-    /* Events */
-    /* ======================================================== */
-    socketOnConnet: function() {
-        this._connect();
-    },
-    
-    socketOnDisconnet: function() {
-        this._disconnect();
-    },
-
-    socketOnMessage: function(data) {
-        this._message(data);
-    }
+Chat.prototype.init = function () {
+    this._bindEvents();
 }
 
+/* Private Methods */
+/* ======================================================== */
+Chat.prototype._bindEvents = function () {
+    this.socket.on('connect', this.socketOnConnet.bind(this));
+    this.socket.on('disconnect', this.socketOnDisconnet.bind(this));
+    this.socket.on('message', this.socketOnMessage.bind(this));
+}
+
+Chat.prototype._message = function (data) {
+    this.model.addMessage(data);
+}
+
+/* Public Methods */
+/* ======================================================== */
+Chat.prototype.addUser = function (data, callback) {
+    this.socket.emit('addUser', data, callback);
+}
+
+Chat.prototype.send = function (message, callback) {
+    this.socket.emit('message', message, callback);
+}
+
+/* Events */
+/* ======================================================== */
+Chat.prototype.socketOnConnet = function () {
+    this._connect();
+}
+
+Chat.prototype.socketOnDisconnet = function () {
+    this._disconnect();
+}
+
+Chat.prototype.socketOnMessage = function (data) {
+    this._message(data);
+}
 {{/content}}
 
 
@@ -514,32 +511,64 @@ Chat.prototype.model = {
     /* ======================================================== */
     init: function () {
         this.viewModel.getAvatar = this._getAvatar.bind(this);
+        this.viewModel.isMe = this._isMe.bind(this);
         this.viewModel.loadAvatar = this._loadAvatar.bind(this);
+        this.viewModel.dismissAvatar = this._dismissAvatar.bind(this);
+
     },
 
     /* Private Methods */
     /* ======================================================== */
+    _dismissAvatar: function() {
+        this.viewModel.user_info.avatar(this.defaultAvatar);
+    },
+
     _loadAvatar: function (file, data) {
-        this.viewModel.user.avatar(data);
+        this.viewModel.user_info.avatar(data);
     },
 
     _getAvatar: function (username) {
         var chat_users = this.viewModel.chat_users();
         var avatar = "";
 
-        $.each(chat_users, function(){
-            if(this.username == username) {
-                avatar = this.avatar;
-            }
-        });
+        if(username == this.viewModel.user_info.username()) {
+            avatar = this.viewModel.user_info.avatar();
+        }else {
+            $.each(chat_users, function(){
+                if(this.username == username) {
+                    avatar = this.avatar;
+                }
+            });
+        }
 
         return avatar;
+    },
+
+    _isMe: function(message) {
+        if(message.nodeType != 3) {
+            var element = $(message);
+            var popover = $(".popover", message);
+            var username = element.data('user');
+
+            if(username == this.viewModel.user_info.username()) {
+                popover.removeClass("right").addClass("left");
+            }
+
+            this._scrollToMessage(element);
+        }
+    },
+
+    _scrollToMessage: function(element) {
+        var message_wrapper = element.parents(".messages-wrapper");
+        var message_scroller = message_wrapper.parent();
+
+        message_scroller.animate({ scrollTop: message_wrapper.height() }, "fast");
     },
 
     /* Public Methods */
     /* ======================================================== */
     addMessage: function(data) {
-        this.viewModel.chat_history.unshift(data);
+        this.viewModel.chat_history.push(data);
     },
 
     addUser: function(data) {
@@ -553,7 +582,7 @@ Chat.prototype.model = {
     },
 
     getUser: function() {
-        return ko.mapping.toJS(this.viewModel.user);
+        return ko.mapping.toJS(this.viewModel.user_info);
     }
 }
 {{/content}}
@@ -602,7 +631,7 @@ Chat.prototype.model = {
             background-repeat: no-repeat;
             background-size: contain;
         }
-        &.fileinput-exists {
+        &amp;.fileinput-exists {
             .fileinput-preview {
                 background-image: none;
             }
@@ -683,14 +712,14 @@ Chat.prototype.model = {
                         margin-top: 0;
                     }
                 }
-                &.left {
+                &amp;.left {
                     float: right;
                     margin-left: 0px;
                     margin-right: 60px;
                     h5, .h5 { display: none; }
                     +.profile-image { right: 20px; }
                 }
-                &.right {
+                &amp;.right {
                     float: left;
                     margin-right: 0px;
                     margin-left: 60px;
@@ -734,4 +763,216 @@ Chat.prototype.model = {
         margin-right: 100px;
     }
 }
+{{/content}}
+
+
+{{#content "socket_io_js_tmpl"}}
+jQuery.inc("examples.chat");
+jQuery.inc("examples.chat_model");
+jQuery.inc("vendors.bootstrap.jasny");
+jQuery.inc("vendors.socket.io");
+jQuery.inc("vendors.tweenmax");
+
+jQuery.clss("views.chat", {
+    /* Constants */
+    /* ======================================================== */
+    SERVER_URL: "SOCKET_IO_SERVER_URL",
+    validateOptions: {
+        loginForm: {
+            rules: {
+                avatar: {
+                    required: true,
+                    accept: "image/jpeg, image/pjpeg"
+                },
+                username: "required"
+            }
+        }
+    },
+
+    /* Variables */
+    /* ======================================================== */
+    chat: null,
+
+    loginForm: $("#loginForm"),
+    loginContainer: $("#login"),
+    messages: $("#messages"),
+    tweetForm: $("#tweetForm"),
+    textaForm: $("#tweetForm textarea"),
+
+    /* Constructor */
+    /* ======================================================== */
+    _constructor: function() {
+        $.views.chat.init();
+    },
+
+    init: function() {
+        this.chat = new Chat({
+            socket: io(this.SERVER_URL),
+            onConnect: this.chatOnConnect.bind(this),
+            onDisconnect: this.chatOnDisconnect.bind(this)
+        });
+
+        TweenMax.set('#tweets', {y:'+=100%'});
+        TweenMax.set('#login', {y:"-=200%"});
+
+        this._validate();
+        this._bindData();
+        this._bindEvents();
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    _bindData: function() {
+        ko.applyBindings(this.chat.model.viewModel, this.loginContainer.get(0));
+        ko.applyBindings(this.chat.model.viewModel, this.messages.get(0));
+    },
+
+    _bindEvents: function() {
+        this.loginForm.on('submit', this.loginFormOnSubmit.bind(this));
+        this.tweetForm.on('submit', this.tweetFormOnSubmit.bind(this));
+        this.textaForm.on('keydown', this.textaFormOnKeyDown.bind(this));
+    },
+
+    _validate: function() {
+        this.loginForm.validate(this.validateOptions['loginForm']);
+    },
+
+    /* Public Methods */
+    /* ======================================================== */
+    addUser: function(data, callback){
+        this.chat.addUser(data, callback);
+    },
+
+    message: function(message) {
+        this.chat.send(message, function(){
+            console.log("Enviado");
+        });
+
+        this.chat.model.addMessage({
+            username: this.chat.model.getUser().username,
+            message: message
+        });
+    },
+
+    /* Events */
+    /* ======================================================== */
+    chatOnConnect: function() {
+        console.log("view.chat: onConnect!");
+        TweenMax.to('#login', 2, {y:"+=150%", ease: Elastic.easeOut.config(1, 0.75)});
+    },
+
+    chatOnDisconnect: function() {
+        console.log("view.chat: onDisconnect!");
+    },
+
+    loginFormOnSubmit: function(e) {
+        e.preventDefault();
+
+        if(this.loginForm.valid()) {
+            this.addUser(this.chat.model.getUser(), function(){
+                TweenMax.to('#login', 2, {y:"-=200%", ease: Elastic.easeInOut.config(1, 0.75)});
+                TweenMax.to('#tweets', 1, {y:"-=100%", delay: 2}); 
+            });
+        }
+
+        return false;
+    },
+
+    tweetFormOnSubmit: function(e) {
+        var message = $( e.target ).serializeArray()[0].value;
+
+        e.preventDefault();
+
+        if(message) { this.message(message); }
+
+        e.target.reset();
+
+        return false;
+    },
+
+    textaFormOnKeyDown: function(e) {
+        e = e || event;
+        if(e.keyCode == 13 &amp;&amp; !e.shiftKey) {
+            e.preventDefault();
+            this.tweetForm.submit();
+            return false;
+        }
+    }
+})();
+{{/content}}
+
+
+{{#content "socket_io_nodejs_server"}}
+var io = require('socket.io')(7205);
+
+var ChatServer = function (socket) {
+    this.socket = socket;
+    this.users = {};
+    this.init();
+}
+
+ChatServer.prototype.init = function () {
+    this.bindEvents();
+}
+
+ChatServer.prototype.bindEvents = function () {
+    var self = this;
+
+    this.socket.on('addUser', function (data, callback) {
+        self.socketOnAddUser(data, callback);
+    });
+    this.socket.on('disconnect', function () {
+        self.socketOnDisconnect();
+    });
+    this.socket.on('message', function (message, callback) {
+        self.socketOnMessage(message, callback);
+    });
+}
+
+ChatServer.prototype.addUser = function (data, callback) {
+    this.socket.username = data.username;
+    this.users[data.username] = data;
+
+    if (data.type == 'user') {
+        this.socket.broadcast.emit('userConnected', data);
+    } else {
+        if (Object.keys(this.users).length > 0) {
+            this.socket.emit('usersOnLine', this.users);
+        }
+    }
+
+    callback();
+}
+
+ChatServer.prototype.disconnect = function () {
+    if (Object.keys(this.users).length > 0) {
+        this.socket.broadcast.emit('userDisconnected', this.users[this.socket.username]);
+        delete this.users[this.socket.username];
+    }
+}
+
+ChatServer.prototype.message = function (message, callback) {
+    this.socket.broadcast.emit('message', {
+        username: this.socket.username,
+        message: message
+    });
+
+    callback();
+}
+
+ChatServer.prototype.socketOnAddUser = function (data, callback) {
+    this.addUser(data, callback);
+}
+
+ChatServer.prototype.socketOnDisconnect = function (data) {
+    this.disconnect(data);
+}
+
+ChatServer.prototype.socketOnMessage = function (message, callback) {
+    this.message(message, callback);
+}
+
+io.on('connection', function (socket) {
+    new ChatServer(socket);
+});
 {{/content}}
