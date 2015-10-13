@@ -1,0 +1,547 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<title></title>
+
+		
+        
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-title" content="Fernix Base WWW">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="Fernix">
+		
+        
+		
+        
+        <link rel="stylesheet" type="text/css" href="/css/socket_io.css">
+		<!--[if lt IE 9]>
+			<link rel="stylesheet" type="text/css" href="/css/ie.css">
+		<![endif]-->
+        
+
+		
+        
+        <script src="/js/libs/jquery.min.js"></script>
+        <script src="/js/main.min.js"></script>
+        <script src="/js/app.min.js"></script>        
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+		<![endif]-->
+        
+	</head>
+	<body>
+
+
+<div id="socket_io" class="main">
+	<div class="main-content" data-role="content">
+        
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       <div class="container">
+        <div class="row">
+           <div class="col-md-9">
+                <div class="jumbotron">
+                    <h1>Socket IO Chat</h1>
+                    <p>On this section we going to know how was created our chat application.</p>
+                </div>
+                
+                <div class="page-header"><h1 id="Creational">HTML / CSS Template</h1></div>
+                <p>First we created the login window where the user chooses his nickname and avatar to use in the chat. The following HTML code was used:</p>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#login_html" aria-controls="login_html" role="tab" data-toggle="tab">HTML</a></li>
+                    <li role="presentation"><a href="#login_scss" aria-controls="login_scss" role="tab" data-toggle="tab">SCSS</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="login_html">
+                        <pre><code class="html">
+&lt;div id="login" class="panel panel-primary vcenter"&gt;
+    &lt;div class="panel-heading"&gt;member login&lt;/div&gt;
+    &lt;div class="panel-body"&gt;
+        &lt;form id="loginForm"&gt;
+            &lt;div class="form-group"&gt;
+                &lt;div class="fileinput fileinput-new" data-provides="fileinput"&gt;
+                    &lt;div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;"&gt;&lt;/div&gt;
+                    &lt;div&gt;
+                        &lt;span class="btn btn-default btn-file hidden"&gt;
+                            &lt;input type="file" name="avatar" data-bind="files: { onLoaded: loadAvatar, fileFilter: 'image.*' }"&gt;
+                        &lt;/span&gt;
+                        &lt;a href="#" class="btn btn-default fileinput-dismiss hidden" data-dismiss="fileinput" data-bind="click: dismissAvatar"&gt;
+                            &lt;span class="glyphicon glyphicon-trash" aria-hidden="true"&gt;&lt;/span&gt;
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" data-bind="with:user_info"&gt;
+                &lt;input type="text" name="username" class="form-control input-lg" placeholder="Username" data-bind="value:username"&gt;
+            &lt;/div&gt;
+            &lt;button type="submit" class="btn btn-primary btn-lg btn-block"&gt;Log In&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="login_scss">
+                        <pre><code class="css">
+#login {
+    height: 400px;
+    margin: auto;
+    width: 400px;
+    .fileinput {
+        display: block;
+        margin: auto;
+        position: relative;
+        width: 200px;
+        .fileinput-preview {
+            background-image: url(/img/icon-user-default.png);
+            background-origin: content-box;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        &amp;.fileinput-exists {
+            .fileinput-preview {
+                background-image: none;
+            }
+            .fileinput-dismiss {
+                bottom: 10px;
+                display: block !important;
+                position: absolute;
+                right: 5px;
+            }
+        }
+        
+    }
+}
+</code></pre>
+                    </div>
+               </div>
+                <p>The input for the username and the button login are common html form inputs, they have some attributes that we will explain below. But, the input for the avatar is an input extended using a bootstrap plugin called <a href="http://www.jasny.net/bootstrap/" target="_blank">jasny</a>.</p>
+                <p>After we created the text area to write the message that we want to send and the messages container where all conversation will be show.</p>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#messages_html" aria-controls="messages_html" role="tab" data-toggle="tab">HTML</a></li>
+                    <li role="presentation"><a href="#messages_scss" aria-controls="messages_scss" role="tab" data-toggle="tab">SCSS</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="messages_html">
+                        <pre><code class="html">
+&lt;!-- Messages container --&gt;
+&lt;div id="messages" class="scroller"&gt;
+    &lt;div class="messages-wrapper table"&gt;
+        &lt;div class="table-row"&gt;
+            &lt;div class="table-cell" data-bind="foreach: { data: chat_history, afterAdd: function(message) { $root.isMe(message); } }"&gt;
+               &lt;div class="message clearfix" data-bind="attr: { 'data-user': username }"&gt;
+                    &lt;div class="popover right"&gt;
+                        &lt;div class="arrow"&gt;&lt;/div&gt;
+                        &lt;div class="popover-content"&gt;
+                            &lt;h5 data-bind="text:username"&gt;&lt;/h5&gt;
+                            &lt;p data-bind="text:message"&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="profile-image"&gt;
+                       &lt;img class="img-circle icon" data-bind="attr:{ src: $root.getAvatar($data.username) }" /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Messages Sender --&gt;
+&lt;div id="tweets" class="well well-sm"&gt;
+    &lt;form id="tweetForm"&gt;
+        &lt;button type="submit" class="btn btn-send btn-default btn-lg"&gt;Send&lt;/button&gt;
+        &lt;div class="txt-send"&gt;
+            &lt;textarea name="tweet" class="form-control" rows="3"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="messages_scss">
+                        <pre><code class="css">
+#messages {
+    bottom: 94px;
+    left: 0px;
+    padding-bottom: 10px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    
+    .table {
+        margin: 0px;
+        .table-cell {
+            vertical-align: bottom;
+        }
+    }
+    
+    .messages-wrapper {
+        .message {
+            padding: 20px;
+            position: relative;
+            .popover {
+                display: block;
+                position: relative;
+
+                .popover-content {
+                    h5, .h5 {
+                        color: #dd5500;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                        margin-top: 0;
+                    }
+                }
+                &amp;.left {
+                    float: right;
+                    margin-left: 0px;
+                    margin-right: 60px;
+                    h5, .h5 { display: none; }
+                    +.profile-image { right: 20px; }
+                }
+                &amp;.right {
+                    float: left;
+                    margin-right: 0px;
+                    margin-left: 60px;
+                    +.profile-image { left: 20px; }
+                }
+            }
+            .profile-image {
+                bottom: 0;
+                height: 45px;
+                margin: auto;
+                position: absolute;
+                top: 0;
+                width: 45px;
+                z-index: 100;
+                .icon {
+                    background-color: #fff;
+                    border: 2px solid #fff;
+                    @include box-shadow(#000035 2px 2px 5px);
+                    height: 100%;
+                    vertical-align: top;
+                    width: 100%;
+                }
+            }
+        }   
+    }
+}
+
+#tweets {
+    bottom: 0px;
+    height: 94px;
+    left: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    width: 100%;
+    .btn-send {
+        float: right;
+        padding: 24px;
+    }
+    
+    .txt-send {
+        margin-right: 100px;
+    }
+}
+</code></pre>
+                    </div>
+               </div>
+               
+               <div class="page-header"><h1 id="Creational">JavaScript Template</h1></div>
+               <p>HTML and CSS are nothing without JavaScript, the following code provide life to our chat. Here we call his dependencies, here we initialize the chat class, his models, his events and all things that make our chat a reality.</p>
+               <pre><code class="javascript">
+jQuery.inc("examples.chat");
+jQuery.inc("examples.chat_model");
+jQuery.inc("vendors.bootstrap.jasny");
+jQuery.inc("vendors.socket.io");
+jQuery.inc("vendors.tweenmax");
+
+jQuery.clss("views.chat", {
+    /* Constants */
+    /* ======================================================== */
+    SERVER_URL: "SOCKET_IO_SERVER_URL",
+    validateOptions: {
+        loginForm: {
+            rules: {
+                avatar: {
+                    required: true,
+                    accept: "image/jpeg, image/pjpeg"
+                },
+                username: "required"
+            }
+        }
+    },
+
+    /* Variables */
+    /* ======================================================== */
+    chat: null,
+
+    loginForm: $("#loginForm"),
+    loginContainer: $("#login"),
+    messages: $("#messages"),
+    tweetForm: $("#tweetForm"),
+    textaForm: $("#tweetForm textarea"),
+
+    /* Constructor */
+    /* ======================================================== */
+    _constructor: function() {
+        $.views.chat.init();
+    },
+
+    init: function() {
+        this.chat = new Chat({
+            socket: io(this.SERVER_URL),
+            onConnect: this.chatOnConnect.bind(this),
+            onDisconnect: this.chatOnDisconnect.bind(this)
+        });
+
+        TweenMax.set('#tweets', {y:'+=100%'});
+        TweenMax.set('#login', {y:"-=200%"});
+
+        this._validate();
+        this._bindData();
+        this._bindEvents();
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    _bindData: function() {
+        ko.applyBindings(this.chat.model.viewModel, this.loginContainer.get(0));
+        ko.applyBindings(this.chat.model.viewModel, this.messages.get(0));
+    },
+
+    _bindEvents: function() {
+        this.loginForm.on('submit', this.loginFormOnSubmit.bind(this));
+        this.tweetForm.on('submit', this.tweetFormOnSubmit.bind(this));
+        this.textaForm.on('keydown', this.textaFormOnKeyDown.bind(this));
+    },
+
+    _validate: function() {
+        this.loginForm.validate(this.validateOptions['loginForm']);
+    },
+
+    /* Public Methods */
+    /* ======================================================== */
+    addUser: function(data, callback){
+        this.chat.addUser(data, callback);
+    },
+
+    message: function(message) {
+        this.chat.send(message, function(){
+            console.log("Enviado");
+        });
+
+        this.chat.model.addMessage({
+            username: this.chat.model.getUser().username,
+            message: message
+        });
+    },
+
+    /* Events */
+    /* ======================================================== */
+    chatOnConnect: function() {
+        console.log("view.chat: onConnect!");
+        TweenMax.to('#login', 2, {y:"+=150%", ease: Elastic.easeOut.config(1, 0.75)});
+    },
+
+    chatOnDisconnect: function() {
+        console.log("view.chat: onDisconnect!");
+    },
+
+    loginFormOnSubmit: function(e) {
+        e.preventDefault();
+
+        if(this.loginForm.valid()) {
+            this.addUser(this.chat.model.getUser(), function(){
+                TweenMax.to('#login', 2, {y:"-=200%", ease: Elastic.easeInOut.config(1, 0.75)});
+                TweenMax.to('#tweets', 1, {y:"-=100%", delay: 2}); 
+            });
+        }
+
+        return false;
+    },
+
+    tweetFormOnSubmit: function(e) {
+        var message = $( e.target ).serializeArray()[0].value;
+
+        e.preventDefault();
+
+        if(message) { this.message(message); }
+
+        e.target.reset();
+
+        return false;
+    },
+
+    textaFormOnKeyDown: function(e) {
+        e = e || event;
+        if(e.keyCode == 13 &amp;&amp; !e.shiftKey) {
+            e.preventDefault();
+            this.tweetForm.submit();
+            return false;
+        }
+    }
+})();
+</code></pre>
+               
+               <div class="page-header"><h1 id="Creational">NodeJS Socket IO Server</h1></div>
+               <p>Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine, for this reason we can include it into this training. In the following code, we can see a simple web socket created using <a href="http://socket.io/" target="_blank">socket.io</a> and will be the manager our chat.</p>
+               <pre><code class="javascript">
+var io = require('socket.io')(7205);
+
+var ChatServer = function (socket) {
+    this.socket = socket;
+    this.users = {};
+    this.init();
+}
+
+ChatServer.prototype.init = function () {
+    this.bindEvents();
+}
+
+ChatServer.prototype.bindEvents = function () {
+    var self = this;
+
+    this.socket.on('addUser', function (data, callback) {
+        self.socketOnAddUser(data, callback);
+    });
+    this.socket.on('disconnect', function () {
+        self.socketOnDisconnect();
+    });
+    this.socket.on('message', function (message, callback) {
+        self.socketOnMessage(message, callback);
+    });
+}
+
+ChatServer.prototype.addUser = function (data, callback) {
+    this.socket.username = data.username;
+    this.users[data.username] = data;
+
+    if (data.type == 'user') {
+        this.socket.broadcast.emit('userConnected', data);
+    } else {
+        if (Object.keys(this.users).length > 0) {
+            this.socket.emit('usersOnLine', this.users);
+        }
+    }
+
+    callback();
+}
+
+ChatServer.prototype.disconnect = function () {
+    if (Object.keys(this.users).length > 0) {
+        this.socket.broadcast.emit('userDisconnected', this.users[this.socket.username]);
+        delete this.users[this.socket.username];
+    }
+}
+
+ChatServer.prototype.message = function (message, callback) {
+    this.socket.broadcast.emit('message', {
+        username: this.socket.username,
+        message: message
+    });
+
+    callback();
+}
+
+ChatServer.prototype.socketOnAddUser = function (data, callback) {
+    this.addUser(data, callback);
+}
+
+ChatServer.prototype.socketOnDisconnect = function (data) {
+    this.disconnect(data);
+}
+
+ChatServer.prototype.socketOnMessage = function (message, callback) {
+    this.message(message, callback);
+}
+
+io.on('connection', function (socket) {
+    new ChatServer(socket);
+});
+</code></pre>
+           </div>
+        </div>
+        </div>
+    
+	</div>
+</div>
+
+</body>
+</html>

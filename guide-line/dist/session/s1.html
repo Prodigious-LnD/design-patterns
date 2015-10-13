@@ -1,0 +1,224 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<title></title>
+
+		
+        
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-title" content="Fernix Base WWW">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="Fernix">
+		
+        
+		
+        
+        <link rel="stylesheet" type="text/css" href="/css/session1.css">
+		<!--[if lt IE 9]>
+			<link rel="stylesheet" type="text/css" href="/css/ie.css">
+		<![endif]-->
+        
+
+		
+        
+        <script src="/js/libs/jquery.min.js"></script>
+        <script src="/js/main.min.js"></script>
+        <script src="/js/app.min.js"></script>        
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+		<![endif]-->
+        
+	</head>
+	<body>
+
+
+<div id="session1" class="main">
+	<div class="main-content" data-role="content">
+        
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       <div class="container">
+        <div class="row">
+           <div class="col-md-9">
+                <div class="page-header"><h1 id="Whatis">What is a Pattern?</h1></div>
+                <p>A pattern is a reusable solution that can be applied to commonly occurring problems in software design - in our case - in writing JavaScript powered applications.
+Another way of looking at patterns are as templates for how you solve problems ones which can be used in quite a few different situations.</p>
+               <h2>We already use patterns everyday</h2>
+               <p>If we imagine that we have a script where for each DOM element on a page with class "foo" we want to increment a counter. 
+<b>What's the simplest efficient way to query for the list we need?</b></p>
+               <ol>
+                    <li>Select all of the elements in the page and then store them. Next, filter this list and use regular expressions (or another means) to only store those with the class "foo".</li>
+                    <li>Use a modern native browser feature such as querySelectorAll() to select all of the elements with the class "foo".</li>
+                    <li>Use a native feature such as getElementsByClassName() to similarly get back the desired list.</li>
+                </ol>
+                <pre><code class="javascript">
+//Select all of the elements in the page and then store them. Next, filter this list and use regular expressions (or another means) to only store those with the class "foo".
+function getAllElements(cls) {
+    //Init
+    var elements, results = [], curClass;  
+
+    //Get all children of the scope node
+    elements = document.getElementsByTagName('*');
+
+    for( var i=0; i &lt; elements.length; i++ ){
+        curClass = elements[i].getAttribute('class');
+        if(curClass != null){
+            curClass = curClass.split(" ");
+            for( var j=0; j &lt; curClass.length; j++){
+                if(curClass[j] === cls){
+                    results.push( elements[i] );
+                    break;
+                }
+            }
+        }
+    }
+
+    return results;
+}
+
+//Use a modern native browser feature such as querySelectorAll() to select all of the elements with the class "foo".
+function querySelectorAll(cls) {
+    return document.querySelectorAll(cls);
+}
+
+//Use a native feature such as getElementsByClassName() to similarly get back the desired list.
+function getElementsByClassName(cls) {
+    return document.getElementsByClassName(cls);
+}
+</code></pre>
+                <p><b>Developers using jQuery don't have to worry about this problem…</b> The library opts for the most optimal approach to selecting elements depending on what your browser supports.
+Core internally uses a number of different design patterns, the most frequent one being a facade.
+jQuery's $(‘selector') is significantly more easy to use for selecting HTML elements on a page versus having to manually handle opt for getElementById(), getElementsByClassName(), getElementByTagName and so on.</p>
+                
+                <div class="page-header"><h1 id="Structure">The Structure Of A Design Pattern</h1></div>
+                <p>Traditionally, a pattern is initially be presented in the form of a rule that establishes a relationship between:</p>
+                <ul>
+                    <li>A <b>context</b> in which the pattern is effective in responding to the users needs.</li>
+                    <li>A system of <b>forces</b> that arises in that context.</li>
+                    <li>A <b>configuration</b> that allows these forces to resolve themselves in context.</li>
+                    <li><b>Pattern name</b> and a <b><descriptionb></descriptionb></b>.</li>
+                    <li><b>Problem statement</b> ,  a problem being addressed so we can understand the intent of the pattern.</li>
+                    <li><b>Solution</b>, a description of how the user’s problem is being solved in an understandable list of steps and perceptions.</li>
+                    <li><b>Design</b>, a description of the pattern’s design and in particular, the user’s behavior in interacting with it</li>
+                    <li><b>Implementation</b>, a guide to how the pattern would be implemented</li>
+                    <li><b>Illustrations</b>, a visual representation of classes in the pattern (e.g. a diagram))</li>
+                    <li><b>Examples</b>, an implementation of the pattern in a minimal form</li>
+                    <li><b>Co-requisites</b>, what other patterns may be needed to support use of the pattern being described?</li>
+                    <li><b>Relations</b>, what patterns does this pattern resemble? does it closely mimic any others?</li>
+                    <li><b>Known usage</b>, is the pattern being used in the ‘wild’?. If so, where and how?</li>
+                    <li><b>Discussions</b>, the team or author’s thoughts on the exciting benefits of the pattern</li>
+                </ul>
+                <p>Design patterns are quite a powerful approach to getting all of the developers in an organization or team on the same page when creating or maintaining solutions.</p>
+                
+                <div class="page-header"><h1 id="Writing">Writing Design Patterns</h1></div>
+                <p>If you would like to try your hand at writing a design pattern (even if just for the learning experience of going through the process), the tips I have for doing so would be as follows:</p>
+                <p><b>Bear in mind practicability:</b> Ensure that your pattern describes proven solutions to recurring problems rather than just speculative solutions which haven’t been qualified.</p>
+                <p><b>Ensure that you draw upon best practices:</b> The design decisions you make should be based on principles you derive from an understanding of best-practices.</p>
+                <p><b>Your design patterns should be transparent to the user:</b> Design patterns should be entirely transparent to any type of user-experience.</p>
+                <p><b>Remember that originality is not key in pattern design:</b> If your design is strong enough to have broad useful applicability, it has a chance of being recognized as a proper pattern.</p>
+                <p><b>Know the differences between patterns and design:</b> A design pattern generally draws from proven best practice and serves as a model for a designer to create a solution.</p>
+                <p><b>Your pattern needs to have a strong set of examples:</b> A good pattern description needs to be followed by an equally strong set of examples demonstrating the successful application of your pattern. </p>
+                
+                <div class="page-header"><h1 id="Antipatt">Anti-Patterns</h1></div>
+                <p>If we consider that a pattern represents a best-practice, an anti-pattern represents a lesson that has been learned.</p>
+                <p>The quality of a final solution will either be good or bad, depending on the level of skill and time the team have invested in it.</p>
+                <p>Here good and bad are considered in context - a ‘perfect’ design may qualify as an anti- pattern if applied in the wrong context.</p>
+                <p>Examples of anti-patterns in JavaScript are the following:</p>
+                <ol>
+                    <li>Polluting the global namespace by defining a large number of variables in the global context</li>
+                    <li>Passing strings rather than functions to either setTimeout or setInterval as this triggers the use of eval() internally.</li>
+                    <li>Modifying the Object class prototype (this is a particularly bad anti-pattern)</li>
+                    <li>Using JavaScript in an inline form as this is inflexible</li>
+                </ol>
+            </div>
+            <div class="col-md-3">
+                <nav id="affixSpy" data-spy="affix">
+                    <ul class="nav">
+                        <li><a href="#Whatis">What is a Pattern?</a></li>
+                        <li><a href="#Structure">The Structure Of A Design Pattern</a></li>
+                        <li><a href="#Writing">Writing Design Patterns</a></li>
+                        <li><a href="#Antipatt">Anti-Patterns</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        </div>
+    
+	</div>
+</div>
+
+</body>
+</html>

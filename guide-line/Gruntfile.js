@@ -26,12 +26,21 @@ module.exports = function (grunt) {
         },
 
         browserSync: {
-            files: {
-                src: ['./build/**/*.html', './build/**/*.css', './build/**/*.js'],
+            build: {
+                files: {
+                    src: ['./build/**/*.html', './build/**/*.css', './build/**/*.js'],
+                },
+                options: {
+                    watchTask: true,
+                    server: './build'
+                }
             },
-            options: {
-                watchTask: true,
-                server: './build'
+            dist: {
+                options: {
+                    server: {
+                        baseDir: "./dist"
+                    }
+                }
             }
         },
 
@@ -81,6 +90,11 @@ module.exports = function (grunt) {
                     cwd: './src/fonts/',
                     src: '**/*',
                     dest: './build/css/fonts/'
+                }, {
+                    expand: true,
+                    cwd: './src/files/',
+                    src: '**/*',
+                    dest: './build/files/'
                 }]
             },
             dist: {
@@ -91,9 +105,14 @@ module.exports = function (grunt) {
                     dest: './dist/'
                 }, {
                     expand: true,
-                    cwd: './src/fonts/',
+                    cwd: './build/css/fonts/',
                     src: '**/*',
                     dest: './dist/css/fonts/'
+                }, {
+                    expand: true,
+                    cwd: './build/files/',
+                    src: '**/*',
+                    dest: './dist/files/'
                 }]
             },
         },
@@ -139,6 +158,19 @@ module.exports = function (grunt) {
                     replacements: [{
                         pattern: /javascript\//g,
                         replacement: 'js/'
+                    }]
+                }
+            },
+            dist: {
+                files: {
+                    'dist/js/app.min.js': ['build/js/app.js'],
+                    'dist/js/main.min.js': ['build/js/main.js'],
+                    'dist/': ['dist/js/components/*.min.js', 'dist/js/models/*.min.js', 'dist/js/views/*.min.js']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /\.js/g,
+                        replacement: '.min.js'
                     }]
                 }
             },
@@ -208,7 +240,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-string-replace');
 
     // Register the default tasks.
-    grunt.registerTask('default', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace', 'browserSync', 'watch']);
+    grunt.registerTask('default', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace:build', 'string-replace:images', 'browserSync:build', 'watch']);
     grunt.registerTask('build', ['clean:build', 'assemble', 'compass:build', 'copy:build', 'string-replace']);
-    grunt.registerTask('dist', ['clean:dist', 'compass:dist', 'copy:dist', 'imagemin:dist', 'uglify:dist', 'processhtml']);
+    grunt.registerTask('dist', ['clean:dist', 'compass:dist', 'copy:dist', 'imagemin:dist', 'uglify:dist', 'processhtml', 'string-replace:dist']);
+    grunt.registerTask('server', ['browserSync:dist']);
 };
