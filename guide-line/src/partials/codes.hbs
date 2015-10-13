@@ -1,0 +1,978 @@
+{{#content "getAllElements"}}
+//Select all of the elements in the page and then store them. Next, filter this list and use regular expressions (or another means) to only store those with the class "foo".
+function getAllElements(cls) {
+    //Init
+    var elements, results = [], curClass;  
+
+    //Get all children of the scope node
+    elements = document.getElementsByTagName('*');
+
+    for( var i=0; i &lt; elements.length; i++ ){
+        curClass = elements[i].getAttribute('class');
+        if(curClass != null){
+            curClass = curClass.split(" ");
+            for( var j=0; j &lt; curClass.length; j++){
+                if(curClass[j] === cls){
+                    results.push( elements[i] );
+                    break;
+                }
+            }
+        }
+    }
+
+    return results;
+}
+
+//Use a modern native browser feature such as querySelectorAll() to select all of the elements with the class "foo".
+function querySelectorAll(cls) {
+    return document.querySelectorAll(cls);
+}
+
+//Use a native feature such as getElementsByClassName() to similarly get back the desired list.
+function getElementsByClassName(cls) {
+    return document.getElementsByClassName(cls);
+}
+{{/content}}
+
+{{#content "creational" }}
+// Each of the following options will create a new empty object: 
+var newObject = {}; // or
+var newObject = Object.create(null); // or
+var newObject = new Object();
+{{/content }}
+
+
+{{#content "creational-assigned"}}
+// ECMAScript 3 compatible approaches 
+
+// 1. Dot syntax
+newObject.someKey = 'Hello World'; // Write properties 
+var key = newObject.someKey; // Access properties 
+
+// 2. Square bracket syntax
+newObject['someKey'] = 'Hello World'; // Write properties 
+var key = newObject['someKey']; // Access properties 
+
+// ECMAScript 5 only compatible approaches
+// For more information see: http://kangax.github.com/es5-compat-table/ 
+
+// 3. Object.defineProperty 
+Object.defineProperty(newObject, "someKey", {
+    value: "for more control of the property's behavior",
+    writable: true,
+    enumerable: true,
+    configurable: true
+});
+
+// 4. Object.defineProperties 
+Object.defineProperties(newObject, {
+    "someKey": {
+        value: "Hello World",
+        writable: true
+    },
+    "anotherKey": {
+        value: "Foo bar",
+        writable: false
+    }
+});
+{{/content}}
+
+
+{{#content "basic-constructor"}}
+function Car(model, year, miles) { 
+    this.model = model; 
+    this.year = year; this.miles = miles; 
+    this.toString = function () {
+        return this.model + " has done " + this.miles + " miles"; 
+    };
+}
+
+var civic = new Car("Honda Civic", 2009, 20000); 
+var mondeo = new Car("Ford Mondeo", 2010, 5000); 
+
+console.log(civic.toString()); 
+console.log(mondeo.toString());
+{{/content}}
+
+{{#content "prototype"}}
+function Car(model, year, miles) {
+    this.model = model;
+    this.year = year;
+    this.miles = miles;
+}
+
+// Note here that we are using Object.prototype.newMethod rather than 
+// Object.prototype so as to avoid redefining the prototype object 
+
+Car.prototype.toString = function () {
+    return this.model + " has done " + this.miles + " miles";
+};
+
+var civic = new Car("Honda Civic", 2009, 20000);
+var mondeo = new Car("Ford Mondeo", 2010, 5000);
+
+console.log(civic.toString());
+{{/content}}
+
+
+{{#content "singleton"}}
+var mySingleton = { 
+    property1: "something", 
+    property2: "something else", 
+    method1: function () { 
+       console.log('hello world'); 
+    }
+};
+{{/content}}
+
+{{#content "singleton2"}}
+var mySingleton = function () {
+    // here are our private methods and variables 
+    var privateVariable = 'something private'; 
+    
+    function showPrivate() { 
+        console.log(privateVariable); 
+    } 
+    
+    // public variables and methods (which can access // private variables and methods )
+    return { 
+        publicVar: 'the public can see this!',
+        publicMethod: function () { 
+            showPrivate();
+        }
+    };
+};
+
+var single = mySingleton();
+
+single.publicMethod(); // logs 'something private' 
+console.log(single.publicVar); // logs 'the public can see this!'
+{{/content}}
+
+{{#content "singleton3"}}
+var Singleton = (function () {
+    var instantiated;
+
+    function init() {
+        // singleton here 
+        return {
+            publicMethod: function () {
+                console.log('hello world');
+            },
+            publicProperty: 'test'
+        };
+    }
+    return {
+        getInstance: function () {
+            if (!instantiated) {
+                instantiated = init();
+            }
+            return instantiated;
+        }
+    };
+})();
+
+// calling public methods is then as easy as: 
+Singleton.getInstance().publicMethod();
+{{/content}}
+
+
+{{#content "singleton4"}}
+var SingletonTester = (function () { 
+    // options: an object containing configuration options for the singleton 
+    // e.g var options = { name: 'test', pointX: 5};
+    function Singleton(options) { 
+        // set options to the options supplied or an empty object if none provided. 
+        options = options || {};
+        //set the name parameter
+        this.name = 'SingletonTester'; 
+        //set the value of pointX 
+        this.pointX = args.pointX || 6; 
+        //set the value of pointY 
+        this.pointY = args.pointY || 10; 
+    } 
+
+    // this is our instance holder 
+    var instance;
+    // this is an emulation of static variables and methods 
+    var _static = {
+        name: 'SingletonTester', 
+        // This is a method for getting an instance
+        // It returns a singleton instance of a singleton object 
+        getInstance: function (options) { 
+            if (instance === undefined) { 
+                instance = new Singleton(options); 
+            } 
+            return instance; 
+        } 
+    }; 
+    
+    return _static; 
+})(); 
+
+var singletonTest = SingletonTester.getInstance({ 
+    pointX: 5 
+});
+
+console.log(singletonTest.pointX); // outputs 5 
+{{/content}}
+
+
+{{#content "real-prototype"}}
+// No need for capitalization as it's not a constructor 
+var someCar = {
+    drive: function() {},
+    name: 'Mazda 3' 
+}; 
+
+// Use Object.create to generate a new car 
+var anotherCar = Object.create( someCar );
+// Now you'll hopefully see that one is a prototype of the other
+console.log(anotherCar.name);
+
+//you're also able to initialize object properties using the second supplied argument
+var vehicle = {
+    getModel: function () {
+        console.log('The model of this vehicle is..' + this.model);
+    }
+};
+var car = Object.create(vehicle, {
+    'id': {
+        value: MY_GLOBAL.nextId(),
+        enumerable: true // writable:false, configurable:false by default 
+    },
+    'model': {
+        value: 'Ford',
+        enumerable: true
+    }
+}); 
+{{/content}}
+
+
+{{#content "prototype2"}}
+var vehiclePrototype = {
+    init: function (carModel) {
+        this.model = carModel;
+    },
+    getModel: function () {
+        console.log('The model of this vehicle is..' + this.model);
+    }
+};
+
+function vehicle(model) {
+    function F() {};
+    
+    F.prototype = vehiclePrototype;
+    
+    var f = new F();
+    
+    f.init(model);
+    
+    return f;
+}
+
+var car = vehicle('Ford Escort');
+car.getModel();
+{{/content}}
+
+
+{{#content "mixin"}}
+// Car 
+var Car = function (settings) {
+    this.model = settings.model || 'no model provided';
+    this.colour = settings.colour || 'no colour provided';
+};
+
+// Mixin 
+var Mixin = function () {};
+
+Mixin.prototype = {
+    driveForward: function () {
+        console.log('drive forward');
+    },
+    driveBackward: function () {
+        console.log('drive backward');
+    }
+};
+
+// Augment existing 'class' with a method from another 
+function augment(receivingClass, givingClass) { 
+    // only provide certain methods
+    if (arguments[2]) {
+        for (var i = 2, len = arguments.length; i &lt; len; i++) {
+            receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]];
+        }
+    }
+    // provide all methods 
+    else {
+        for (var methodName in givingClass.prototype) {
+            /* check to make sure the receiving class doesn't
+            have a method of the same name as the one currently being processed */
+            if (!receivingClass.prototype[methodName]) {
+                receivingClass.prototype[methodName] = givingClass.prototype[methodName];
+            }
+        }
+    }
+}
+
+// Augment the Car have the methods 'driveForward' and 'driveBackward'*/ 
+augment(Car, Mixin, 'driveForward', 'driveBackward'); 
+
+// Create a new Car
+var vehicle = new Car({
+    model: 'Ford Escort',
+    colour: 'blue'
+});
+
+// Test to make sure we now have access to the methods 
+vehicle.driveForward();
+vehicle.driveBackward();
+{{/content}}
+
+
+{{#content "mvvm_html"}}
+    &lt;div class="row"&gt;
+       &lt;div class="col-md-6"&gt;
+           &lt;form id="userForm" class="form-horizontal" data-bind="with:user"&gt;
+                &lt;div class="form-group"&gt;
+                    &lt;input type="text" class="form-control input-lg" placeholder="Username" data-bind="value:username"&gt;
+                &lt;/div&gt;
+                &lt;div class="form-group"&gt;
+                    &lt;input type="text" class="form-control input-lg" placeholder="Full Name" data-bind="value:fullname"&gt;
+                &lt;/div&gt;
+                &lt;div class="form-group"&gt;
+                    &lt;input type="email" class="form-control input-lg" placeholder="Email" data-bind="value:email"&gt;
+                &lt;/div&gt;
+                &lt;button type="submit" class="btn btn-primary btn-lg"&gt;Add&lt;/button&gt;
+            &lt;/form&gt;
+       &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;dl class="dl-horizontal" data-bind="with:user"&gt;
+                &lt;dt&gt;Username: &lt;/dt&gt;
+                &lt;dd data-bind="text:username"&gt;&lt;/dd&gt;
+                &lt;dt&gt;Full Name: &lt;/dt&gt;
+                &lt;dd data-bind="text:fullname"&gt;&lt;/dd&gt;
+                &lt;dt&gt;Email: &lt;/dt&gt;
+                &lt;dd data-bind="text:email"&gt;&lt;/dd&gt;
+            &lt;/dl&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="row"&gt;
+       &lt;div class="col-md-12"&gt;
+           &lt;table class="table table-bordered table-striped"&gt;
+              &lt;thead&gt;
+                   &lt;tr&gt;
+                       &lt;th&gt;#&lt;/th&gt;
+                       &lt;th&gt;Username&lt;/th&gt;
+                       &lt;th&gt;Full Name&lt;/th&gt;
+                       &lt;th&gt;Email&lt;/th&gt;
+                       &lt;th&gt;Remove&lt;/th&gt;
+                   &lt;/tr&gt;
+               &lt;/thead&gt;
+               &lt;tbody data-bind="foreach:users"&gt;&lt;/tbody&gt;
+           &lt;/table&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;
+{{/content}}
+
+
+{{#content "mvvm_javascript"}}
+    // $.models.users
+    ...
+    viewModel: { 
+        users   :   ko.observableArray(),
+        user    :   ko.mapping.fromJS({
+            username: '',
+            fullname: '',
+            email: '',
+            type: 'user'
+        })
+    },
+    ...
+
+    //$.views.session3
+    ...
+    _bindData: function() {
+        ko.applyBindings($.models.users.viewModel, this.demoContainer.get(0));
+    },
+    ...
+{{/content}}
+
+
+
+
+{{!-- Practices samples --}}
+{{!-- ======================================================== --}}
+
+{{#content "creational_sample_basic"}}
+// Basic user_info object
+var chat_room = {
+    user_info: {
+        username: "",
+        fullname: "",
+        birthday: "",
+        email: ""
+    }
+}
+{{/content}}
+
+
+{{#content "creational_sample_full"}}
+// Include chat_history and chat_users objects
+var chat_room = {
+    user_info: {
+        username: "",
+        fullname: "",
+        birthday: "",
+        email: ""
+    },
+    chat_history: [],
+    chat_users: []
+}
+{{/content}}
+
+
+{{#content "constructor_sample_main"}}
+//Basic Constructor
+function Chat(options) {
+    this.socket = options.socket || null;
+    this._connect = options.onConnect || function(){};
+    this._disconnect = options.onDisconnect || function(){};
+    
+    if(this.socket) {
+        this.init();
+    }
+}
+{{/content}}
+
+{{#content "constructor_sample_body"}}
+//Constructor with prototype
+Chat.prototype.init = function () {
+    this._bindEvents();
+}
+
+/* Private Methods */
+/* ======================================================== */
+Chat.prototype._bindEvents = function () {
+    this.socket.on('connect', this.socketOnConnet.bind(this));
+    this.socket.on('disconnect', this.socketOnDisconnet.bind(this));
+    this.socket.on('message', this.socketOnMessage.bind(this));
+}
+
+Chat.prototype._message = function (data) {
+    this.model.addMessage(data);
+}
+
+/* Public Methods */
+/* ======================================================== */
+Chat.prototype.addUser = function (data, callback) {
+    this.socket.emit('addUser', data, callback);
+}
+
+Chat.prototype.send = function (message, callback) {
+    this.socket.emit('message', message, callback);
+}
+
+/* Events */
+/* ======================================================== */
+Chat.prototype.socketOnConnet = function () {
+    this._connect();
+}
+
+Chat.prototype.socketOnDisconnet = function () {
+    this._disconnect();
+}
+
+Chat.prototype.socketOnMessage = function (data) {
+    this._message(data);
+}
+{{/content}}
+
+
+{{#content "mvvm_sample_model"}}
+Chat.prototype.model = {
+    /* Variables */
+    /* ======================================================== */
+    viewModel: { 
+        user_info: ko.mapping.fromJS({
+            username: "",
+            fullname: "",
+            birthday: "",
+            email: "",
+            avatar: '',
+            type: 'user'
+        }),
+        chat_history: ko.observableArray([]),
+        chat_users: ko.observableArray([])
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    init: function () {
+        this.viewModel.getAvatar = this._getAvatar.bind(this);
+        this.viewModel.isMe = this._isMe.bind(this);
+        this.viewModel.loadAvatar = this._loadAvatar.bind(this);
+        this.viewModel.dismissAvatar = this._dismissAvatar.bind(this);
+
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    _dismissAvatar: function() {
+        this.viewModel.user_info.avatar(this.defaultAvatar);
+    },
+
+    _loadAvatar: function (file, data) {
+        this.viewModel.user_info.avatar(data);
+    },
+
+    _getAvatar: function (username) {
+        var chat_users = this.viewModel.chat_users();
+        var avatar = "";
+
+        if(username == this.viewModel.user_info.username()) {
+            avatar = this.viewModel.user_info.avatar();
+        }else {
+            $.each(chat_users, function(){
+                if(this.username == username) {
+                    avatar = this.avatar;
+                }
+            });
+        }
+
+        return avatar;
+    },
+
+    _isMe: function(message) {
+        if(message.nodeType != 3) {
+            var element = $(message);
+            var popover = $(".popover", message);
+            var username = element.data('user');
+
+            if(username == this.viewModel.user_info.username()) {
+                popover.removeClass("right").addClass("left");
+            }
+
+            this._scrollToMessage(element);
+        }
+    },
+
+    _scrollToMessage: function(element) {
+        var message_wrapper = element.parents(".messages-wrapper");
+        var message_scroller = message_wrapper.parent();
+
+        message_scroller.animate({ scrollTop: message_wrapper.height() }, "fast");
+    },
+
+    /* Public Methods */
+    /* ======================================================== */
+    addMessage: function(data) {
+        this.viewModel.chat_history.push(data);
+    },
+
+    addUser: function(data) {
+        this.viewModel.chat_users.push(data);
+    },
+
+    deleteUser: function(data) {
+        this.viewModel.chat_users.remove(function(user) {
+            return user.username == data.username;
+        });
+    },
+
+    getUser: function() {
+        return ko.mapping.toJS(this.viewModel.user_info);
+    }
+}
+{{/content}}
+
+
+{{#content "socket_io_html_tmpl_login"}}
+&lt;div id="login" class="panel panel-primary vcenter"&gt;
+    &lt;div class="panel-heading"&gt;member login&lt;/div&gt;
+    &lt;div class="panel-body"&gt;
+        &lt;form id="loginForm"&gt;
+            &lt;div class="form-group"&gt;
+                &lt;div class="fileinput fileinput-new" data-provides="fileinput"&gt;
+                    &lt;div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;"&gt;&lt;/div&gt;
+                    &lt;div&gt;
+                        &lt;span class="btn btn-default btn-file hidden"&gt;
+                            &lt;input type="file" name="avatar" data-bind="files: { onLoaded: loadAvatar, fileFilter: 'image.*' }"&gt;
+                        &lt;/span&gt;
+                        &lt;a href="#" class="btn btn-default fileinput-dismiss hidden" data-dismiss="fileinput" data-bind="click: dismissAvatar"&gt;
+                            &lt;span class="glyphicon glyphicon-trash" aria-hidden="true"&gt;&lt;/span&gt;
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group" data-bind="with:user_info"&gt;
+                &lt;input type="text" name="username" class="form-control input-lg" placeholder="Username" data-bind="value:username"&gt;
+            &lt;/div&gt;
+            &lt;button type="submit" class="btn btn-primary btn-lg btn-block"&gt;Log In&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+{{/content}}
+
+{{#content "socket_io_html_tmpl_login_scss"}}
+#login {
+    height: 400px;
+    margin: auto;
+    width: 400px;
+    .fileinput {
+        display: block;
+        margin: auto;
+        position: relative;
+        width: 200px;
+        .fileinput-preview {
+            background-image: url(/images/icon-user-default.png);
+            background-origin: content-box;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        &amp;.fileinput-exists {
+            .fileinput-preview {
+                background-image: none;
+            }
+            .fileinput-dismiss {
+                bottom: 10px;
+                display: block !important;
+                position: absolute;
+                right: 5px;
+            }
+        }
+        
+    }
+}
+{{/content}}
+
+{{#content "socket_io_html_tmpl_messages"}}
+&lt;!-- Messages container --&gt;
+&lt;div id="messages" class="scroller"&gt;
+    &lt;div class="messages-wrapper table"&gt;
+        &lt;div class="table-row"&gt;
+            &lt;div class="table-cell" data-bind="foreach: { data: chat_history, afterAdd: function(message) { $root.isMe(message); } }"&gt;
+               &lt;div class="message clearfix" data-bind="attr: { 'data-user': username }"&gt;
+                    &lt;div class="popover right"&gt;
+                        &lt;div class="arrow"&gt;&lt;/div&gt;
+                        &lt;div class="popover-content"&gt;
+                            &lt;h5 data-bind="text:username"&gt;&lt;/h5&gt;
+                            &lt;p data-bind="text:message"&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="profile-image"&gt;
+                       &lt;img class="img-circle icon" data-bind="attr:{ src: $root.getAvatar($data.username) }" /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Messages Sender --&gt;
+&lt;div id="tweets" class="well well-sm"&gt;
+    &lt;form id="tweetForm"&gt;
+        &lt;button type="submit" class="btn btn-send btn-default btn-lg"&gt;Send&lt;/button&gt;
+        &lt;div class="txt-send"&gt;
+            &lt;textarea name="tweet" class="form-control" rows="3"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+{{/content}}
+{{#content "socket_io_html_tmpl_messages_scss"}}
+#messages {
+    bottom: 94px;
+    left: 0px;
+    padding-bottom: 10px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    
+    .table {
+        margin: 0px;
+        .table-cell {
+            vertical-align: bottom;
+        }
+    }
+    
+    .messages-wrapper {
+        .message {
+            padding: 20px;
+            position: relative;
+            .popover {
+                display: block;
+                position: relative;
+
+                .popover-content {
+                    h5, .h5 {
+                        color: #dd5500;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                        margin-top: 0;
+                    }
+                }
+                &amp;.left {
+                    float: right;
+                    margin-left: 0px;
+                    margin-right: 60px;
+                    h5, .h5 { display: none; }
+                    +.profile-image { right: 20px; }
+                }
+                &amp;.right {
+                    float: left;
+                    margin-right: 0px;
+                    margin-left: 60px;
+                    +.profile-image { left: 20px; }
+                }
+            }
+            .profile-image {
+                bottom: 0;
+                height: 45px;
+                margin: auto;
+                position: absolute;
+                top: 0;
+                width: 45px;
+                z-index: 100;
+                .icon {
+                    background-color: #fff;
+                    border: 2px solid #fff;
+                    @include box-shadow(#000035 2px 2px 5px);
+                    height: 100%;
+                    vertical-align: top;
+                    width: 100%;
+                }
+            }
+        }   
+    }
+}
+
+#tweets {
+    bottom: 0px;
+    height: 94px;
+    left: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    width: 100%;
+    .btn-send {
+        float: right;
+        padding: 24px;
+    }
+    
+    .txt-send {
+        margin-right: 100px;
+    }
+}
+{{/content}}
+
+
+{{#content "socket_io_js_tmpl"}}
+jQuery.inc("examples.chat");
+jQuery.inc("examples.chat_model");
+jQuery.inc("vendors.bootstrap.jasny");
+jQuery.inc("vendors.socket.io");
+jQuery.inc("vendors.tweenmax");
+
+jQuery.clss("views.chat", {
+    /* Constants */
+    /* ======================================================== */
+    SERVER_URL: "SOCKET_IO_SERVER_URL",
+    validateOptions: {
+        loginForm: {
+            rules: {
+                avatar: {
+                    required: true,
+                    accept: "image/jpeg, image/pjpeg"
+                },
+                username: "required"
+            }
+        }
+    },
+
+    /* Variables */
+    /* ======================================================== */
+    chat: null,
+
+    loginForm: $("#loginForm"),
+    loginContainer: $("#login"),
+    messages: $("#messages"),
+    tweetForm: $("#tweetForm"),
+    textaForm: $("#tweetForm textarea"),
+
+    /* Constructor */
+    /* ======================================================== */
+    _constructor: function() {
+        $.views.chat.init();
+    },
+
+    init: function() {
+        this.chat = new Chat({
+            socket: io(this.SERVER_URL),
+            onConnect: this.chatOnConnect.bind(this),
+            onDisconnect: this.chatOnDisconnect.bind(this)
+        });
+
+        TweenMax.set('#tweets', {y:'+=100%'});
+        TweenMax.set('#login', {y:"-=200%"});
+
+        this._validate();
+        this._bindData();
+        this._bindEvents();
+    },
+
+    /* Private Methods */
+    /* ======================================================== */
+    _bindData: function() {
+        ko.applyBindings(this.chat.model.viewModel, this.loginContainer.get(0));
+        ko.applyBindings(this.chat.model.viewModel, this.messages.get(0));
+    },
+
+    _bindEvents: function() {
+        this.loginForm.on('submit', this.loginFormOnSubmit.bind(this));
+        this.tweetForm.on('submit', this.tweetFormOnSubmit.bind(this));
+        this.textaForm.on('keydown', this.textaFormOnKeyDown.bind(this));
+    },
+
+    _validate: function() {
+        this.loginForm.validate(this.validateOptions['loginForm']);
+    },
+
+    /* Public Methods */
+    /* ======================================================== */
+    addUser: function(data, callback){
+        this.chat.addUser(data, callback);
+    },
+
+    message: function(message) {
+        this.chat.send(message, function(){
+            console.log("Enviado");
+        });
+
+        this.chat.model.addMessage({
+            username: this.chat.model.getUser().username,
+            message: message
+        });
+    },
+
+    /* Events */
+    /* ======================================================== */
+    chatOnConnect: function() {
+        console.log("view.chat: onConnect!");
+        TweenMax.to('#login', 2, {y:"+=150%", ease: Elastic.easeOut.config(1, 0.75)});
+    },
+
+    chatOnDisconnect: function() {
+        console.log("view.chat: onDisconnect!");
+    },
+
+    loginFormOnSubmit: function(e) {
+        e.preventDefault();
+
+        if(this.loginForm.valid()) {
+            this.addUser(this.chat.model.getUser(), function(){
+                TweenMax.to('#login', 2, {y:"-=200%", ease: Elastic.easeInOut.config(1, 0.75)});
+                TweenMax.to('#tweets', 1, {y:"-=100%", delay: 2}); 
+            });
+        }
+
+        return false;
+    },
+
+    tweetFormOnSubmit: function(e) {
+        var message = $( e.target ).serializeArray()[0].value;
+
+        e.preventDefault();
+
+        if(message) { this.message(message); }
+
+        e.target.reset();
+
+        return false;
+    },
+
+    textaFormOnKeyDown: function(e) {
+        e = e || event;
+        if(e.keyCode == 13 &amp;&amp; !e.shiftKey) {
+            e.preventDefault();
+            this.tweetForm.submit();
+            return false;
+        }
+    }
+})();
+{{/content}}
+
+
+{{#content "socket_io_nodejs_server"}}
+var io = require('socket.io')(7205);
+
+var ChatServer = function (socket) {
+    this.socket = socket;
+    this.users = {};
+    this.init();
+}
+
+ChatServer.prototype.init = function () {
+    this.bindEvents();
+}
+
+ChatServer.prototype.bindEvents = function () {
+    var self = this;
+
+    this.socket.on('addUser', function (data, callback) {
+        self.socketOnAddUser(data, callback);
+    });
+    this.socket.on('disconnect', function () {
+        self.socketOnDisconnect();
+    });
+    this.socket.on('message', function (message, callback) {
+        self.socketOnMessage(message, callback);
+    });
+}
+
+ChatServer.prototype.addUser = function (data, callback) {
+    this.socket.username = data.username;
+    this.users[data.username] = data;
+
+    if (data.type == 'user') {
+        this.socket.broadcast.emit('userConnected', data);
+    } else {
+        if (Object.keys(this.users).length > 0) {
+            this.socket.emit('usersOnLine', this.users);
+        }
+    }
+
+    callback();
+}
+
+ChatServer.prototype.disconnect = function () {
+    if (Object.keys(this.users).length > 0) {
+        this.socket.broadcast.emit('userDisconnected', this.users[this.socket.username]);
+        delete this.users[this.socket.username];
+    }
+}
+
+ChatServer.prototype.message = function (message, callback) {
+    this.socket.broadcast.emit('message', {
+        username: this.socket.username,
+        message: message
+    });
+
+    callback();
+}
+
+ChatServer.prototype.socketOnAddUser = function (data, callback) {
+    this.addUser(data, callback);
+}
+
+ChatServer.prototype.socketOnDisconnect = function (data) {
+    this.disconnect(data);
+}
+
+ChatServer.prototype.socketOnMessage = function (message, callback) {
+    this.message(message, callback);
+}
+
+io.on('connection', function (socket) {
+    new ChatServer(socket);
+});
+{{/content}}

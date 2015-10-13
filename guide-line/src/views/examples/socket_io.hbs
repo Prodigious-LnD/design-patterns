@@ -1,0 +1,58 @@
+{{#extend "default"}}
+    {{#content "body"}}
+      {{> codes }}
+       <div class="container">
+        <div class="row">
+           <div class="col-md-9">
+                <div class="jumbotron">
+                    <h1>Socket IO Chat</h1>
+                    <p>On this section we going to know how was created our chat application.</p>
+                </div>
+                
+                <div class="page-header"><h1 id="Creational">HTML / CSS Template</h1></div>
+                <p>First we created the login window where the user chooses his nickname and avatar to use in the chat. The following HTML code was used:</p>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#login_html" aria-controls="login_html" role="tab" data-toggle="tab">HTML</a></li>
+                    <li role="presentation"><a href="#login_scss" aria-controls="login_scss" role="tab" data-toggle="tab">SCSS</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="login_html">
+                        <pre><code class="html">{{#block "socket_io_html_tmpl_login"}} //Empty code block {{/block}}</code></pre>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="login_scss">
+                        <pre><code class="css">{{#block "socket_io_html_tmpl_login_scss"}} //Empty code block {{/block}}</code></pre>
+                    </div>
+               </div>
+                <p>The input for the username and the button login are common html form inputs, they have some attributes that we will explain below. But, the input for the avatar is an input extended using a bootstrap plugin called <a href="http://www.jasny.net/bootstrap/" target="_blank">jasny</a>.</p>
+                <p>After we created the text area to write the message that we want to send and the messages container where all conversation will be show.</p>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#messages_html" aria-controls="messages_html" role="tab" data-toggle="tab">HTML</a></li>
+                    <li role="presentation"><a href="#messages_scss" aria-controls="messages_scss" role="tab" data-toggle="tab">SCSS</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="messages_html">
+                        <pre><code class="html">{{#block "socket_io_html_tmpl_messages"}} //Empty code block {{/block}}</code></pre>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="messages_scss">
+                        <pre><code class="css">{{#block "socket_io_html_tmpl_messages_scss"}} //Empty code block {{/block}}</code></pre>
+                    </div>
+               </div>
+               
+               <div class="page-header"><h1 id="Creational">JavaScript Template</h1></div>
+               <p>HTML and CSS are nothing without JavaScript, the following code provide life to our chat. Here we call his dependencies, here we initialize the chat class, his models, his events and all things that make our chat a reality.</p>
+               <pre><code class="javascript">{{#block "socket_io_js_tmpl"}} //Empty code block {{/block}}</code></pre>
+               
+               <div class="page-header"><h1 id="Creational">NodeJS Socket IO Server</h1></div>
+               <p>Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine, for this reason we can include it into this training. In the following code, we can see a simple web socket created using <a href="http://socket.io/" target="_blank">socket.io</a> and will be the manager our chat.</p>
+               <pre><code class="javascript">{{#block "socket_io_nodejs_server"}} //Empty code block {{/block}}</code></pre>
+           </div>
+        </div>
+        </div>
+    {{/content}}
+{{/extend}}

@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'New Cicle Fina';
+    src: url('/css/fonts/new_cicle/new_cicle_fina.eot');
+    src: url('/css/fonts/new_cicle/new_cicle_fina.eot?#iefix') format('embedded-opentype'),
+         url('/css/fonts/new_cicle/new_cicle_fina.woff') format('woff'),
+         url('/css/fonts/new_cicle/new_cicle_fina.ttf') format('truetype'),
+         url('/css/fonts/new_cicle/new_cicle_fina.svg#new_ciclefina') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

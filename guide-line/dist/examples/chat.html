@@ -1,0 +1,105 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<title></title>
+
+		
+        
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-title" content="Fernix Base WWW">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="Fernix">
+		
+        
+		
+        
+        <link rel="stylesheet" type="text/css" href="/css/chat.css">
+		<!--[if lt IE 9]>
+			<link rel="stylesheet" type="text/css" href="/css/ie.css">
+		<![endif]-->
+        
+
+		
+        
+        <script src="/js/libs/jquery.min.js"></script>
+        <script src="/js/main.min.js"></script>
+        <script src="/js/app.min.js"></script>        
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+		<![endif]-->
+        
+	</head>
+	<body>
+
+
+<div id="chat" class="main">
+	<div class="main-content" data-role="content">
+        
+    <div class="section">
+        <div class="section-content">
+            <div id="messages" class="scroller">
+                <div class="messages-wrapper table">
+                    <div class="table-row">
+                        <div class="table-cell" data-bind="foreach: { data: chat_history, afterAdd: function(message) { $root.isMe(message); } }">
+                           <div class="message clearfix" data-bind="attr: { 'data-user': username }">
+                                <div class="popover right">
+                                    <div class="arrow"></div>
+                                    <div class="popover-content">
+                                        <h5 data-bind="text:username"></h5>
+                                        <p data-bind="text:message"></p>
+                                    </div>
+                                </div>
+                                <div class="profile-image">
+                                   <img class="img-circle icon" data-bind="attr:{ src: $root.getAvatar($data.username) }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="login" class="panel panel-primary vcenter">
+                <div class="panel-heading">member login</div>
+                <div class="panel-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;"></div>
+                                <div>
+                                    <span class="btn btn-default btn-file hidden">
+                                        <input type="file" name="avatar" data-bind="files: { onLoaded: loadAvatar, fileFilter: 'image.*' }">
+                                    </span>
+                                    <a href="#" class="btn btn-default fileinput-dismiss hidden" data-dismiss="fileinput" data-bind="click: dismissAvatar">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" data-bind="with:user_info">
+                            <input type="text" name="username" class="form-control input-lg" placeholder="Username" data-bind="value:username">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
+                    </form>
+                </div>
+            </div>
+            <div id="tweets" class="well well-sm">
+                <form id="tweetForm">
+                    <button type="submit" class="btn btn-send btn-default btn-lg">Send</button>
+                    <div class="txt-send">
+                        <textarea name="tweet" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+	</div>
+</div>
+
+</body>
+</html>
