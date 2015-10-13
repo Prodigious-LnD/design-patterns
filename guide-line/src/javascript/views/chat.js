@@ -7,8 +7,19 @@ jQuery.inc("vendors.tweenmax");
 jQuery.clss("views.chat", {
 	/* Constants */
 	/* ======================================================== */
-	uses: [],
-    SERVER_URL: 'http://10.66.28.246:7205',
+    SERVER_URL: '192.168.1.3:7205',//'http://10.66.28.246:7205',
+    uses: [],
+    validateOptions: {
+        loginForm: {
+            rules: {
+                avatar: {
+                    required: true,
+                    accept: "image/jpeg, image/pjpeg"
+                },
+                username: "required"
+            }
+        }
+    },
     
 	/* Variables */
 	/* ======================================================== */
@@ -37,6 +48,7 @@ jQuery.clss("views.chat", {
         TweenMax.set('#login', {y:"-=200%"});
             
 		this._uses();
+        this._validate();
 		this._bindData();
 		this._bindEvents();
 	},
@@ -57,6 +69,10 @@ jQuery.clss("views.chat", {
 	_uses: function() {
 		this.parent._uses(this.uses);
 	},
+    
+    _validate: function() {
+        this.loginForm.validate(this.validateOptions['loginForm']);
+    },
 
 	/* Public Methods */
 	/* ======================================================== */
@@ -89,10 +105,12 @@ jQuery.clss("views.chat", {
     loginFormOnSubmit: function(e) {
         e.preventDefault();
         
-        this.addUser(this.chat.model.getUser(), function(){
-            TweenMax.to('#login', 2, {y:"-=200%", ease: Elastic.easeInOut.config(1, 0.75)});
-            TweenMax.to('#tweets', 1, {y:"-=100%", delay: 2}); 
-        });
+        if(this.loginForm.valid()) {
+            this.addUser(this.chat.model.getUser(), function(){
+                TweenMax.to('#login', 2, {y:"-=200%", ease: Elastic.easeInOut.config(1, 0.75)});
+                TweenMax.to('#tweets', 1, {y:"-=100%", delay: 2}); 
+            });
+        }
         
         return false;
     },

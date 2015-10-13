@@ -2,22 +2,20 @@
     {{#content "body"}}
     <div class="section">
         <div class="section-content">
-            <div id="messages">
-                <div class="table">
+            <div id="messages" class="scroller">
+                <div class="messages-wrapper table">
                     <div class="table-row">
-                        <div class="table-cell">
-                            <div class="messages-wrapper" data-bind="foreach: { data: chat_history, afterAdd: function(message) { $root.isMe(message); } }">
-                                <div class="message clearfix" data-bind="attr: { 'data-user': username }">
-                                    <div class="popover right">
-                                        <div class="arrow"></div>
-                                        <div class="popover-content">
-                                            <p data-bind="text:message"></p>
-                                        </div>
+                        <div class="table-cell" data-bind="foreach: { data: chat_history, afterAdd: function(message) { $root.isMe(message); } }">
+                           <div class="message clearfix" data-bind="attr: { 'data-user': username }">
+                                <div class="popover right">
+                                    <div class="arrow"></div>
+                                    <div class="popover-content">
+                                        <h5 data-bind="text:username"></h5>
+                                        <p data-bind="text:message"></p>
                                     </div>
-                                    <div class="profile-image">
-                                       <span class="status"></span>
-                                        <img class="img-circle icon" src="/images/icon-user-default.png" data-bind="attr:{ src: $root.getAvatar($data.username) }" />
-                                    </div>
+                                </div>
+                                <div class="profile-image">
+                                   <img class="img-circle icon" data-bind="attr:{ src: $root.getAvatar($data.username) }" />
                                 </div>
                             </div>
                         </div>
@@ -33,16 +31,16 @@
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;"></div>
                                 <div>
                                     <span class="btn btn-default btn-file hidden">
-                                    <input type="file" name="avatar" data-bind="files: { onLoaded: loadAvatar, fileFilter: 'image.*' }">
+                                        <input type="file" name="avatar" data-bind="files: { onLoaded: loadAvatar, fileFilter: 'image.*' }">
                                     </span>
-                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">
+                                    <a href="#" class="btn btn-default fileinput-dismiss hidden" data-dismiss="fileinput" data-bind="click: dismissAvatar">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" data-bind="with:user_info">
-                            <input type="text" class="form-control input-lg" placeholder="Username" data-bind="value:username">
+                            <input type="text" name="username" class="form-control input-lg" placeholder="Username" data-bind="value:username">
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
                     </form>
