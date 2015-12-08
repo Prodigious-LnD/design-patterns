@@ -7,12 +7,12 @@ module.exports = function (grunt) {
         assemble: {
             options: {
                 assets: './src/',
-                data: ['../amuse/data/*.{json,yml}', './src/data/*.{json,yml}'],
+                data: ['../../amuse/data/*.{json,yml}', './src/data/*.{json,yml}'],
                 layoutdir: './src/layouts/',
                 layout: false,
                 partials: [
-                    '../amuse/layouts/**/*.hbs',
-                    '../amuse/partials/**/*.hbs',
+                    '../../amuse/layouts/**/*.hbs',
+                    '../../amuse/partials/**/*.hbs',
                     './src/layouts/**/*.hbs',
                     './src/partials/**/*.hbs'
                 ]
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: '../amuse/javascript/',
+                    cwd: '../../amuse/javascript/',
                     src: '**/*',
                     dest: './build/js/'
                 },{
