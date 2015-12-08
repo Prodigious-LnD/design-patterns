@@ -7,12 +7,12 @@ module.exports = function (grunt) {
         assemble: {
             options: {
                 assets: './src/',
-                data: ['./src/core/data/*.{json,yml}', './src/data/**/*.{json,yml}'],
+                data: ['../amuse/data/*.{json,yml}', './src/data/*.{json,yml}'],
                 layoutdir: './src/layouts/',
                 layout: false,
                 partials: [
-                    './src/core/layouts/**/*.hbs',
-                    './src/core/partials/**/*.hbs',
+                    '../amuse/layouts/**/*.hbs',
+                    '../amuse/partials/**/*.hbs',
                     './src/layouts/**/*.hbs',
                     './src/partials/**/*.hbs'
                 ]
@@ -36,16 +36,17 @@ module.exports = function (grunt) {
                 }
             },
             dist: {
+                files: {
+                    src: ['dist/**/*.html', 'dist/**/*.css', 'dist/**/*.js'],
+                },
                 options: {
-                    server: {
-                        baseDir: "./dist"
-                    }
+                    server: './dist'
                 }
             }
         },
 
         clean: {
-            build: ['./build/**/*.html', './build/js', './build/css', './build/img'],
+            build: ['./build/**/*'],
             dist: ['./dist/**/*.html', './dist/**/*.js', './dist/**/*.css', './dist/**/*.{jpg,gif,png}']
         },
 
@@ -54,6 +55,7 @@ module.exports = function (grunt) {
                 options: {
                     sassDir: './src/styles/',
                     cssDir: './build/css/',
+                    imagesDir: './src/images/',
                     environment: 'development',
                     require: 'bootstrap-sass'
                 }
@@ -62,6 +64,7 @@ module.exports = function (grunt) {
                 options: {
                     sassDir: './src/styles/',
                     cssDir: './dist/css/',
+                    imagesDir: './src/images/',
                     environment: 'production',
                     require: 'bootstrap-sass'
                 }
@@ -72,7 +75,7 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: './src/core/javascript/',
+                    cwd: '../amuse/javascript/',
                     src: '**/*',
                     dest: './build/js/'
                 },{
@@ -92,27 +95,40 @@ module.exports = function (grunt) {
                     dest: './build/css/fonts/'
                 }, {
                     expand: true,
-                    cwd: './src/files/',
+                    cwd: './src/assets/',
                     src: '**/*',
-                    dest: './build/files/'
+                    dest: './build/assets/'
                 }]
             },
             dist: {
                 files: [{
                     expand: true,
-                    cwd: './build/',
+                    cwd: 'src/core/javascript/libs/',
+                    src: '**/*.js',
+                    dest: 'dist/javascript/libs/',
+                    ext: '.min.js'
+                },{
+                    expand: true,
+                    cwd: 'src/core/javascript/plugins/',
+                    src: '**/*.js',
+                    dest: 'dist/javascript/plugins/',
+                    ext: '.min.js'
+                },{
+                    expand: true,
+                    cwd: 'src/core/javascript/vendors/',
+                    src: '**/*.js',
+                    dest: 'dist/javascript/vendors/',
+                    ext: '.min.js'
+                },{
+                    expand: true,
+                    cwd: 'build/',
                     src: '**/*.html',
                     dest: './dist/'
                 }, {
                     expand: true,
-                    cwd: './build/css/fonts/',
+                    cwd: './src/fonts/',
                     src: '**/*',
                     dest: './dist/css/fonts/'
-                }, {
-                    expand: true,
-                    cwd: './build/files/',
-                    src: '**/*',
-                    dest: './dist/files/'
                 }]
             },
         },
@@ -176,7 +192,7 @@ module.exports = function (grunt) {
             },
             images: {
                 files: {
-                    './build/': ['./build/**/*.css', './build/**/*.html']
+                    './build/': ['./build/**/*.css', './build/**/*.html', './build/**/*.js']
                 },
                 options: {
                     replacements: [{
@@ -188,8 +204,27 @@ module.exports = function (grunt) {
         },
 
         uglify: {
+            options: {
+                mangle: false
+            },
             dist: {
                 files: [{
+                    'dist/javascript/app.min.js': ['build/javascript/app.js'],
+                    'dist/javascript/main.min.js': ['build/javascript/main.js'],
+                    'dist/javascript/debug.min.js': ['build/javascript/debug.js']
+              },{
+                    expand: true,
+                    cwd: 'build/javascript/components',
+                    src: '**/*.js',
+                    dest: 'dist/javascript/components',
+                    ext: '.min.js'
+              },{
+                    expand: true,
+                    cwd: 'build/javascript/models',
+                    src: '**/*.js',
+                    dest: 'dist/javascript/models',
+                    ext: '.min.js'
+              },{
                     expand: true,
                     cwd: './build/js',
                     src: '**/*.js',
